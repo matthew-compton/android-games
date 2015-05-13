@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main Theme -->
+    <color name="primary">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="primary_light">#BBDEFB</color>
+    <color name="accent">#536DFE</color>
+
+    <!-- Text -->
+    <color name="text_primary">#FAFAFA</color>
+    <color name="text_secondary">#CCCCCC</color>
+    <color name="text_dark">#222222</color>
+
+    <!-- Miscellaneous -->
+    <color name="background">#FFEEEEEE</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="dividers">#B6B6B6</color>
+
+</resources>

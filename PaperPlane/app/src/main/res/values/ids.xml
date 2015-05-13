@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_id">1042632794311</string>
+
+    <!-- Achievements -->
+    <string name="achievement_id_time_10">CgkIx8GHjqweEAIQBw</string>
+    <string name="achievement_id_time_100">CgkIx8GHjqweEAIQCA</string>
+    <string name="achievement_id_time_1000">CgkIx8GHjqweEAIQCQ</string>
+    <string name="achievement_id_time_10000">CgkIx8GHjqweEAIQCg</string>
+    <string name="achievement_id_distance_10">CgkIx8GHjqweEAIQAw</string>
+    <string name="achievement_id_distance_100">CgkIx8GHjqweEAIQBA</string>
+    <string name="achievement_id_distance_1000">CgkIx8GHjqweEAIQBQ</string>
+    <string name="achievement_id_distance_10000">CgkIx8GHjqweEAIQBg</string>
+
+    <!-- Leaderboards -->
+    <string name="leaderboard_id_distance">CgkIx8GHjqweEAIQAQ</string>
+    <string name="leaderboard_id_time">CgkIx8GHjqweEAIQAg</string>
+
+</resources>

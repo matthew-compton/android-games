@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controller.GameoverFragment">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/padding_large"
+        android:alpha="0.3"
+        android:src="@drawable/paperplanes"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="@string/fragment_gameover_title"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_large"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fragment_gameover_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/fragment_gameover_time"
+                android:textColor="@color/text_dark"
+                android:textSize="@dimen/text_large"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/fragment_gameover_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/fragment_gameover_distance"
+                android:textColor="@color/text_dark"
+                android:textSize="@dimen/text_large"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/fragment_gameover_menu"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="@string/fragment_gameover_menu"
+            android:textColor="@color/text_color_light"
+            android:textSize="@dimen/text_large"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+</FrameLayout>

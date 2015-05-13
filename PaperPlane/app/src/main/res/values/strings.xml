@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name">Paper Plane</string>
+
+    <!-- Authentication -->
+    <string name="auth_achievements_unavailable">Please sign in to view Achievements.</string>
+    <string name="auth_leaderboards_unavailable">Please sign in to view Leaderboards.</string>
+
+    <!-- Main Menu -->
+    <string name="fragment_menu_item_start">New Game</string>
+    <string name="fragment_menu_item_achievements">Achievements</string>
+    <string name="fragment_menu_item_leaderboards">Leaderboards</string>
+    <string name="fragment_menu_item_quit">Quit</string>
+    <string name="fragment_menu_sign_in_text">Sign in with Google to share your scores and achievements with friends.</string>
+    <string name="fragment_menu_sign_out"><u>Sign out</u></string>
+    <string name="fragment_menu_welcome_message_default">You are signed in with Google.</string>
+    <string name="fragment_menu_welcome_message">Welcome, %1$s!</string>
+
+    <!-- Game Over -->
+    <string name="fragment_gameover_title">Game Over!</string>
+    <string name="fragment_gameover_time">Time: %1$d</string>
+    <string name="fragment_gameover_distance">Distance: %1$d</string>
+    <string name="fragment_gameover_menu"><u>To Main Menu \></u></string>
+
+    <!-- Achievements -->
+    <string name="achievement">Achievement</string>
+
+    <!-- Errors -->
+    <string name="error_auth">Failed to sign in. Please try again later.</string>
+    <string name="error_misconfigured">Misconfigured app. Please try again later.</string>
+    <string name="error_license">License issue. Please try again later.</string>
+
+</resources>

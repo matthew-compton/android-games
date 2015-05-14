@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- General -->
     <string name="app_name">Paper Plane</string>
@@ -16,7 +16,7 @@
     <string name="fragment_menu_sign_in_text">Sign in with Google to share your scores and achievements with friends.</string>
     <string name="fragment_menu_sign_out"><u>Sign out</u></string>
     <string name="fragment_menu_welcome_message_default">You are signed in with Google.</string>
-    <string name="fragment_menu_welcome_message">Welcome, %1$s!</string>
+    <string name="fragment_menu_welcome_message">Welcome, <xliff:g id="name" example="Matt">%1$s</xliff:g>!</string>
 
     <!-- Game Over -->
     <string name="fragment_gameover_title">Game Over!</string>

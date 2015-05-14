@@ -40,7 +40,7 @@ public class MenuFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSignedIn = getArguments().getBoolean(ARG_SIGNED_IN, false);
-        mPlayerName = getArguments().getString(ARG_SIGNED_IN);
+        mPlayerName = getArguments().getString(ARG_PLAYER_NAME);
     }
 
     @Override

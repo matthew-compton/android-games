@@ -148,7 +148,7 @@
                 android:paddingLeft="@dimen/padding_medium"
                 android:paddingRight="@dimen/padding_medium"
                 android:text="@string/fragment_menu_sign_out"
-                android:textColor="@color/text_secondary"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_medium"
                 />
 

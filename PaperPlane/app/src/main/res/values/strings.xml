@@ -14,7 +14,7 @@
     <string name="fragment_menu_item_leaderboards">Leaderboards</string>
     <string name="fragment_menu_item_quit">Quit</string>
     <string name="fragment_menu_sign_in_text">Sign in with Google to share your scores and achievements with friends.</string>
-    <string name="fragment_menu_sign_out"><u>Sign out</u></string>
+    <string name="fragment_menu_sign_out">Sign out</string>
     <string name="fragment_menu_welcome_message_default">You are signed in with Google.</string>
     <string name="fragment_menu_welcome_message">Welcome, <xliff:g id="name" example="Matt">%1$s</xliff:g>!</string>
 

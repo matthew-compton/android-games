@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.ambergleam.android.paperplane.R;
 import com.ambergleam.android.paperplane.model.AbstractEntity;
 import com.ambergleam.android.paperplane.model.Plane;
+import com.ambergleam.android.paperplane.util.TimeUtils;
 import com.ambergleam.android.paperplane.view.GameplayView;
 
 import java.util.ArrayList;
@@ -82,6 +83,12 @@ public class GameplayFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mCallbacks = (Callbacks) activity;
@@ -93,18 +100,12 @@ public class GameplayFragment extends Fragment {
         mCallbacks = null;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
-    }
-
     private void reset() {
         mTime = 0;
         mDistance = 0;
     }
 
-    synchronized public void init() {
+    synchronized private void init() {
         mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
         mGameplayView.invalidate();
         updateUI();
@@ -126,7 +127,7 @@ public class GameplayFragment extends Fragment {
     };
 
     private void updateUI() {
-        mTimeTextView.setText(getString(R.string.fragment_gameplay_time, mTime));
+        mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
         mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, mDistance));
     }
 

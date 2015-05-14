@@ -1,0 +1,45 @@
+package com.ambergleam.android.paperplane.util;
+
+import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class TimeUtilsTest {
+
+    @Test
+    public void testTimeUtilsForHoursMinutesSeconds() {
+        // 9 hours, 59 minutes, 59 seconds
+        long testTimeMilliseconds = (10 * TimeUtils.MINUTES_PER_HOUR * TimeUtils.SECONDS_PER_MINUTE * TimeUtils.MILLISECONDS_PER_SECOND) - TimeUtils.MILLISECONDS_PER_SECOND;
+        String expectedTimeString = "9h 59m 59s";
+        String actualTimeString = TimeUtils.formatTime(testTimeMilliseconds);
+        assertThat(actualTimeString).isEqualTo(expectedTimeString);
+    }
+
+    @Test
+    public void testTimeUtilsForMinutesSeconds() {
+        // 35 minutes, 15 seconds
+        long testTimeMilliseconds = (35 * TimeUtils.SECONDS_PER_MINUTE * TimeUtils.MILLISECONDS_PER_SECOND) + (15 * TimeUtils.MILLISECONDS_PER_SECOND);
+        String expectedTimeString = "35m 15s";
+        String actualTimeString = TimeUtils.formatTime(testTimeMilliseconds);
+        assertThat(actualTimeString).isEqualTo(expectedTimeString);
+    }
+
+    @Test
+    public void testTimeUtilsForSeconds() {
+        // 22 seconds
+        long testTimeMilliseconds = 22 * TimeUtils.MILLISECONDS_PER_SECOND;
+        String expectedTimeString = "0m 22s";
+        String actualTimeString = TimeUtils.formatTime(testTimeMilliseconds);
+        assertThat(actualTimeString).isEqualTo(expectedTimeString);
+    }
+
+    @Test
+    public void testTimeUtilsForZero() {
+        // 0 seconds
+        long timeMilliseconds = 0;
+        String expectedTimeString = "0m 0s";
+        String actualTimeString = TimeUtils.formatTime(timeMilliseconds);
+        assertThat(actualTimeString).isEqualTo(expectedTimeString);
+    }
+
+}

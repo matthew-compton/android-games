@@ -193,17 +193,20 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onSignInRequested() {
+        Timber.d("Sign in requested.");
         mSignInClicked = true;
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onSignOutRequested() {
+        Timber.d("Sign out requested.");
         mSignInClicked = false;
         Games.signOut(mGoogleApiClient);
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
+        updateUI();
     }
 
     @Override

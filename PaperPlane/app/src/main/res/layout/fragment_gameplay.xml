@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ambergleam.android.paperplane.view.GameplayView
-    android:id="@+id/fragment_gameplay_view"
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent">
+
+    <com.ambergleam.android.paperplane.view.GameplayView
+        android:id="@+id/fragment_gameplay_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="@dimen/padding_small"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/fragment_gameplay_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/fragment_gameplay_time"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/fragment_gameplay_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/fragment_gameplay_distance"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -10,6 +10,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ambergleam.android.paperplane.R;
 import com.ambergleam.android.paperplane.model.AbstractEntity;
@@ -18,16 +19,22 @@ import com.ambergleam.android.paperplane.view.GameplayView;
 
 import java.util.ArrayList;
 
-public class GameplayFragment extends Fragment implements View.OnClickListener {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
-    private static final int FRAME_RATE = 20;
+public class GameplayFragment extends Fragment {
+
+    private static final int FRAME_RATE_MS = 20;
+
+    @InjectView(R.id.fragment_gameplay_view) GameplayView mGameplayView;
+    @InjectView(R.id.fragment_gameplay_time) TextView mTimeTextView;
+    @InjectView(R.id.fragment_gameplay_distance) TextView mDistanceTextView;
 
     private Callbacks mCallbacks;
-    private GameplayView mGameplayView;
-    private Handler mFrame;
+    private Handler mFrameUpdateHandler;
 
-    private int mDistance = 0;
-    private int mTime = 0;
+    private int mDistance;
+    private int mTime;
 
     public static GameplayFragment newInstance() {
         return new GameplayFragment();
@@ -36,12 +43,14 @@ public class GameplayFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFrame = new Handler();
+        mFrameUpdateHandler = new Handler();
+        reset();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mGameplayView = (GameplayView) inflater.inflate(R.layout.fragment_gameplay, container, false);
+        View layout = inflater.inflate(R.layout.fragment_gameplay, container, false);
+        ButterKnife.inject(this, layout);
 
         Plane plane = new Plane(
                 BitmapFactory.decodeResource(getResources(), R.drawable.paperplane),
@@ -61,7 +70,15 @@ public class GameplayFragment extends Fragment implements View.OnClickListener {
                 init();
             }
         });
-        return mGameplayView;
+
+        mGameplayView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallbacks.onGameover(mTime, mDistance);
+            }
+        });
+
+        return layout;
     }
 
     @Override
@@ -76,28 +93,41 @@ public class GameplayFragment extends Fragment implements View.OnClickListener {
         mCallbacks = null;
     }
 
-    synchronized public void init() {
-        mFrame.removeCallbacks(frameUpdate);
-        mGameplayView.invalidate();
-        mFrame.postDelayed(frameUpdate, FRAME_RATE);
+    @Override
+    public void onPause() {
+        super.onPause();
+        mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
     }
 
-    private Runnable frameUpdate = new Runnable() {
+    private void reset() {
+        mTime = 0;
+        mDistance = 0;
+    }
+
+    synchronized public void init() {
+        mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
+        mGameplayView.invalidate();
+        updateUI();
+        mFrameUpdateHandler.postDelayed(mFrameUpdateRunnable, FRAME_RATE_MS);
+    }
+
+    private Runnable mFrameUpdateRunnable = new Runnable() {
         @Override
         synchronized public void run() {
-            mFrame.removeCallbacks(frameUpdate);
+            mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
             mGameplayView.invalidate();
 
-            mDistance += 2;
-            mTime += 1;
+            mDistance += 1;
+            mTime += FRAME_RATE_MS;
+            updateUI();
 
-            mFrame.postDelayed(frameUpdate, FRAME_RATE);
+            mFrameUpdateHandler.postDelayed(mFrameUpdateRunnable, FRAME_RATE_MS);
         }
     };
 
-    @Override
-    public void onClick(View v) {
-        mCallbacks.onGameover(mTime, mDistance);
+    private void updateUI() {
+        mTimeTextView.setText(getString(R.string.fragment_gameplay_time, mTime));
+        mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, mDistance));
     }
 
     public interface Callbacks {

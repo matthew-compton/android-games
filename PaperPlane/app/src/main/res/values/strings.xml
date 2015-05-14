@@ -18,10 +18,14 @@
     <string name="fragment_menu_welcome_message_default">You are signed in with Google.</string>
     <string name="fragment_menu_welcome_message">Welcome, <xliff:g id="name" example="Matt">%1$s</xliff:g>!</string>
 
+    <!-- Gameplay -->
+    <string name="fragment_gameplay_time">%1$ds</string>
+    <string name="fragment_gameplay_distance">%1$dft</string>
+
     <!-- Game Over -->
     <string name="fragment_gameover_title">Game Over!</string>
-    <string name="fragment_gameover_time">Time: %1$d</string>
-    <string name="fragment_gameover_distance">Distance: %1$d</string>
+    <string name="fragment_gameover_time">Time: %1$ds</string>
+    <string name="fragment_gameover_distance">Distance: %1$dft</string>
     <string name="fragment_gameover_menu"><u>To Main Menu \></u></string>
 
     <!-- Achievements -->

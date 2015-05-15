@@ -9,7 +9,7 @@ public class TimeUtilsTest {
     @Test
     public void testTimeUtilsForHoursMinutesSeconds() {
         // 9 hours, 59 minutes, 59 seconds
-        long testTimeMilliseconds = (10 * TimeUtils.MINUTES_PER_HOUR * TimeUtils.SECONDS_PER_MINUTE * TimeUtils.MILLISECONDS_PER_SECOND) - TimeUtils.MILLISECONDS_PER_SECOND;
+        int testTimeMilliseconds = (10 * TimeUtils.MINUTES_PER_HOUR * TimeUtils.SECONDS_PER_MINUTE * TimeUtils.MILLISECONDS_PER_SECOND) - TimeUtils.MILLISECONDS_PER_SECOND;
         String expectedTimeString = "9:59:59.000";
         String actualTimeString = TimeUtils.formatTime(testTimeMilliseconds);
         assertThat(actualTimeString).isEqualTo(expectedTimeString);
@@ -18,7 +18,7 @@ public class TimeUtilsTest {
     @Test
     public void testTimeUtilsForMinutesSeconds() {
         // 35 minutes, 15 seconds
-        long testTimeMilliseconds = (35 * TimeUtils.SECONDS_PER_MINUTE * TimeUtils.MILLISECONDS_PER_SECOND) + (15 * TimeUtils.MILLISECONDS_PER_SECOND);
+        int testTimeMilliseconds = (35 * TimeUtils.SECONDS_PER_MINUTE * TimeUtils.MILLISECONDS_PER_SECOND) + (15 * TimeUtils.MILLISECONDS_PER_SECOND);
         String expectedTimeString = "35:15.000";
         String actualTimeString = TimeUtils.formatTime(testTimeMilliseconds);
         assertThat(actualTimeString).isEqualTo(expectedTimeString);
@@ -27,7 +27,7 @@ public class TimeUtilsTest {
     @Test
     public void testTimeUtilsForSeconds() {
         // 22 seconds
-        long testTimeMilliseconds = 22 * TimeUtils.MILLISECONDS_PER_SECOND;
+        int testTimeMilliseconds = 22 * TimeUtils.MILLISECONDS_PER_SECOND;
         String expectedTimeString = "22.000 s";
         String actualTimeString = TimeUtils.formatTime(testTimeMilliseconds);
         assertThat(actualTimeString).isEqualTo(expectedTimeString);
@@ -36,7 +36,7 @@ public class TimeUtilsTest {
     @Test
     public void testTimeUtilsForMilliseconds() {
         // 220 milliseconds
-        long testTimeMilliseconds = 220;
+        int testTimeMilliseconds = 220;
         String expectedTimeString = "0.220 s";
         String actualTimeString = TimeUtils.formatTime(testTimeMilliseconds);
         assertThat(actualTimeString).isEqualTo(expectedTimeString);
@@ -45,7 +45,7 @@ public class TimeUtilsTest {
     @Test
     public void testTimeUtilsForZero() {
         // 0 seconds
-        long timeMilliseconds = 0;
+        int timeMilliseconds = 0;
         String expectedTimeString = "0.000 s";
         String actualTimeString = TimeUtils.formatTime(timeMilliseconds);
         assertThat(actualTimeString).isEqualTo(expectedTimeString);

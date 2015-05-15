@@ -1,7 +1,6 @@
 package com.ambergleam.android.paperplane.controller;
 
 import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -14,8 +13,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.TypedValue;
 
+import com.ambergleam.android.paperplane.BaseApplication;
 import com.ambergleam.android.paperplane.R;
-import com.ambergleam.android.paperplane.outbox.DataOutbox;
+import com.ambergleam.android.paperplane.manager.DataManager;
 import com.ambergleam.android.paperplane.util.DialogUtils;
 import com.ambergleam.android.paperplane.util.GameUtils;
 import com.ambergleam.android.paperplane.util.SystemUtils;
@@ -24,6 +24,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
 import com.google.android.gms.plus.Plus;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -38,27 +40,24 @@ public class MainActivity extends FragmentActivity
     private static final int REQUEST_CODE_SIGNIN = 0;
     private static final int REQUEST_CODE_UNUSED = 1;
 
-    private GoogleApiClient mGoogleApiClient;
-    private DataOutbox mOutbox;
+    @Inject DataManager mDataManager;
 
+    private GoogleApiClient mGoogleApiClient;
     private boolean mResolvingConnectionFailure;
     private boolean mSignInClicked;
     private boolean mAutoStartSignInFlow;
-
-    public static Intent newIntent(Context context) {
-        return new Intent(context, MainActivity.class);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        BaseApplication.get(this).inject(this);
         ButterKnife.inject(this);
 
         setupGoogleApiClient();
         setupOverviewScreen();
         setupState();
-        updateFragment(MenuFragment.newInstance(isSignedIn(), getPlayerName(), 0, 0));
+        updateFragment(MenuFragment.newInstance(isSignedIn(), getPlayerName()));
     }
 
     @Override
@@ -100,7 +99,6 @@ public class MainActivity extends FragmentActivity
     }
 
     private void setupState() {
-        mOutbox = new DataOutbox();
         mResolvingConnectionFailure = false;
         mSignInClicked = false;
         mAutoStartSignInFlow = false;
@@ -224,9 +222,9 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onGameover(int time, int distance) {
-        mOutbox.update(time, distance);
+        mDataManager.update(time, distance);
         saveData();
-        updateFragment(MenuFragment.newInstance(isSignedIn(), getPlayerName(), time, distance));
+        updateFragment(MenuFragment.newInstance(isSignedIn(), getPlayerName()));
     }
 
     private boolean isSignedIn() {
@@ -240,6 +238,7 @@ public class MainActivity extends FragmentActivity
             MenuFragment menuFragment = (MenuFragment) fragment;
             menuFragment.setSignedIn(isSignedIn());
             menuFragment.setWelcomeMessage(getPlayerName());
+            menuFragment.updateUI();
         } else if (fragment instanceof GameplayFragment) {
             // Nothing
         } else {
@@ -257,7 +256,7 @@ public class MainActivity extends FragmentActivity
 
     private void saveData() {
         if (isSignedIn()) {
-            mOutbox.save(this, mGoogleApiClient);
+            mDataManager.save(this, mGoogleApiClient);
         } else {
             // TODO - save local
         }

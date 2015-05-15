@@ -1,4 +1,4 @@
-package com.ambergleam.android.paperplane.outbox;
+package com.ambergleam.android.paperplane.manager;
 
 import android.content.Context;
 
@@ -6,7 +6,11 @@ import com.ambergleam.android.paperplane.R;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 
-public class AchievementOutbox implements OutboxInterface {
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
+public class AchievementManager implements UpdateInterface {
 
     public boolean mTimeAchievement_10_Unlocked;
     public boolean mTimeAchievement_100_Unlocked;
@@ -17,8 +21,14 @@ public class AchievementOutbox implements OutboxInterface {
     public boolean mDistanceAchievement_1000_Unlocked;
     public boolean mDistanceAchievement_10000_Unlocked;
 
+    @Inject
+    public AchievementManager() {
+
+    }
+
     @Override
-    public void update(int time, int distance) {
+    public void update(int time_ms, int distance_ft) {
+        int time = time_ms / 1000;
         if (time >= 10) {
             mTimeAchievement_10_Unlocked = true;
         }
@@ -31,16 +41,16 @@ public class AchievementOutbox implements OutboxInterface {
         if (time >= 10000) {
             mTimeAchievement_10000_Unlocked = true;
         }
-        if (distance >= 10) {
+        if (distance_ft >= 10) {
             mDistanceAchievement_10_Unlocked = true;
         }
-        if (distance >= 100) {
+        if (distance_ft >= 100) {
             mDistanceAchievement_100_Unlocked = true;
         }
-        if (distance >= 1000) {
+        if (distance_ft >= 1000) {
             mDistanceAchievement_1000_Unlocked = true;
         }
-        if (distance >= 10000) {
+        if (distance_ft >= 10000) {
             mDistanceAchievement_10000_Unlocked = true;
         }
     }

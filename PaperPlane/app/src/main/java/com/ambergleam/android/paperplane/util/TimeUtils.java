@@ -9,7 +9,7 @@ public class TimeUtils {
     public static final int MILLISECONDS_PER_MINUTE = SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
     public static final int MILLISECONDS_PER_HOUR = MINUTES_PER_HOUR * MILLISECONDS_PER_MINUTE;
 
-    public static String formatTime(long time_ms) {
+    public static String formatTime(int time_ms) {
         String formattedTime;
         String format;
         long milliseconds = (time_ms % MILLISECONDS_PER_SECOND);

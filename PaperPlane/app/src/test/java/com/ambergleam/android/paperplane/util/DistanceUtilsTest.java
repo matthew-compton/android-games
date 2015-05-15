@@ -9,7 +9,7 @@ public class DistanceUtilsTest {
     @Test
     public void testDistanceUtilsForLargeNumber() {
         // 1,200,300ft
-        long testDistance = 1200300;
+        int testDistance = 1200300;
         String expectedDistanceString = "1,200,300 ft";
         String actualDistanceString = DistanceUtils.formatDistance(testDistance);
         assertThat(actualDistanceString).isEqualTo(expectedDistanceString);
@@ -18,7 +18,7 @@ public class DistanceUtilsTest {
     @Test
     public void testDistanceUtilsForMediumNumber() {
         // 1,200ft
-        long testDistance = 1200;
+        int testDistance = 1200;
         String expectedDistanceString = "1,200 ft";
         String actualDistanceString = DistanceUtils.formatDistance(testDistance);
         assertThat(actualDistanceString).isEqualTo(expectedDistanceString);
@@ -27,7 +27,7 @@ public class DistanceUtilsTest {
     @Test
     public void testDistanceUtilsForSmallNumber() {
         // 320ft
-        long testDistance = 320;
+        int testDistance = 320;
         String expectedDistanceString = "320 ft";
         String actualDistanceString = DistanceUtils.formatDistance(testDistance);
         assertThat(actualDistanceString).isEqualTo(expectedDistanceString);
@@ -36,7 +36,7 @@ public class DistanceUtilsTest {
     @Test
     public void testDistanceUtilsForZero() {
         // 0ft
-        long testDistance = 0;
+        int testDistance = 0;
         String expectedDistanceString = "0 ft";
         String actualDistanceString = DistanceUtils.formatDistance(testDistance);
         assertThat(actualDistanceString).isEqualTo(expectedDistanceString);

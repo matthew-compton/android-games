@@ -18,6 +18,7 @@ import com.ambergleam.android.paperplane.R;
 import com.ambergleam.android.paperplane.outbox.DataOutbox;
 import com.ambergleam.android.paperplane.util.DialogUtils;
 import com.ambergleam.android.paperplane.util.GameUtils;
+import com.ambergleam.android.paperplane.util.SystemUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
@@ -65,6 +66,7 @@ public class MainActivity extends FragmentActivity
     protected void onResume() {
         super.onResume();
         mGoogleApiClient.connect();
+        SystemUtils.hideSystemUI(this);
     }
 
     @Override

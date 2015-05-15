@@ -250,12 +250,10 @@ public class MainActivity extends FragmentActivity
     }
 
     private void saveData() {
-        if (mOutbox.hasUpdates()) {
-            if (isSignedIn()) {
-                mOutbox.save(this, mGoogleApiClient);
-            } else {
-                // TODO - save local
-            }
+        if (isSignedIn()) {
+            mOutbox.save(this, mGoogleApiClient);
+        } else {
+            // TODO - save local
         }
     }
 

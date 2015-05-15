@@ -15,11 +15,6 @@ public class DataOutbox implements OutboxInterface {
     }
 
     @Override
-    public boolean hasUpdates() {
-        return mLeaderboardOutbox.hasUpdates() || mAchievementOutbox.hasUpdates();
-    }
-
-    @Override
     public void update(int time, int distance) {
         mLeaderboardOutbox.update(time, distance);
         mAchievementOutbox.update(time, distance);

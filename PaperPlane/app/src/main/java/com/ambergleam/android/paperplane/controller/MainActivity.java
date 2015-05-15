@@ -33,8 +33,7 @@ public class MainActivity extends FragmentActivity
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         MenuFragment.Callbacks,
-        GameplayFragment.Callbacks,
-        GameoverFragment.Callbacks {
+        GameplayFragment.Callbacks {
 
     private static final int REQUEST_CODE_SIGNIN = 0;
     private static final int REQUEST_CODE_UNUSED = 1;
@@ -59,7 +58,7 @@ public class MainActivity extends FragmentActivity
         setupGoogleApiClient();
         setupOverviewScreen();
         setupState();
-        updateFragment(MenuFragment.newInstance(isSignedIn(), getPlayerName()));
+        updateFragment(MenuFragment.newInstance(isSignedIn(), getPlayerName(), 0, 0));
     }
 
     @Override
@@ -224,16 +223,10 @@ public class MainActivity extends FragmentActivity
     }
 
     @Override
-    public void onGameoverScreenDismissed() {
-        updateFragment(MenuFragment.newInstance(isSignedIn(), getPlayerName()));
-    }
-
-    @Override
     public void onGameover(int time, int distance) {
         mOutbox.update(time, distance);
         saveData();
-        updateFragment(MenuFragment.newInstance(isSignedIn(), getPlayerName()));
-//        updateFragment(GameoverFragment.newInstance(time, distance));
+        updateFragment(MenuFragment.newInstance(isSignedIn(), getPlayerName(), time, distance));
     }
 
     private boolean isSignedIn() {
@@ -248,8 +241,6 @@ public class MainActivity extends FragmentActivity
             menuFragment.setSignedIn(isSignedIn());
             menuFragment.setWelcomeMessage(getPlayerName());
         } else if (fragment instanceof GameplayFragment) {
-            // Nothing
-        } else if (fragment instanceof GameoverFragment) {
             // Nothing
         } else {
             Timber.e("Error with updating current Fragment.");

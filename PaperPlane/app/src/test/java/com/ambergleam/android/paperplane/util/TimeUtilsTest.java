@@ -28,7 +28,7 @@ public class TimeUtilsTest {
     public void testTimeUtilsForSeconds() {
         // 22 seconds
         long testTimeMilliseconds = 22 * TimeUtils.MILLISECONDS_PER_SECOND;
-        String expectedTimeString = "22.000";
+        String expectedTimeString = "22.000 s";
         String actualTimeString = TimeUtils.formatTime(testTimeMilliseconds);
         assertThat(actualTimeString).isEqualTo(expectedTimeString);
     }
@@ -37,7 +37,7 @@ public class TimeUtilsTest {
     public void testTimeUtilsForMilliseconds() {
         // 220 milliseconds
         long testTimeMilliseconds = 220;
-        String expectedTimeString = "0.220";
+        String expectedTimeString = "0.220 s";
         String actualTimeString = TimeUtils.formatTime(testTimeMilliseconds);
         assertThat(actualTimeString).isEqualTo(expectedTimeString);
     }
@@ -46,7 +46,7 @@ public class TimeUtilsTest {
     public void testTimeUtilsForZero() {
         // 0 seconds
         long timeMilliseconds = 0;
-        String expectedTimeString = "0.000";
+        String expectedTimeString = "0.000 s";
         String actualTimeString = TimeUtils.formatTime(timeMilliseconds);
         assertThat(actualTimeString).isEqualTo(expectedTimeString);
     }

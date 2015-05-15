@@ -17,7 +17,7 @@ public class TimeUtils {
         long minutes = (time_ms / MILLISECONDS_PER_MINUTE) % 60;
         long hours = (time_ms / MILLISECONDS_PER_HOUR);
         if (hours == 0 && minutes == 0) {
-            format = "%d.%03d";
+            format = "%d.%03d s";
             formattedTime = String.format(format, seconds, milliseconds);
         } else if (hours == 0) {
             format = "%d:%d.%03d";

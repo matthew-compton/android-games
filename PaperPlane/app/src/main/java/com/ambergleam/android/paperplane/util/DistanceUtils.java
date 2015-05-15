@@ -8,7 +8,7 @@ public class DistanceUtils {
 
     public static String formatDistance(long distance_ft) {
         DecimalFormat formatter = new DecimalFormat(DECIMAL_FORMAT_DISTANCE);
-        String formattedDistance = formatter.format(distance_ft).concat("ft");
+        String formattedDistance = formatter.format(distance_ft).concat(" ft");
         return formattedDistance;
     }
 

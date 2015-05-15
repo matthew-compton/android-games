@@ -36,7 +36,7 @@ public class GameplayView extends View {
 
 
     private void clearScreen(Canvas canvas) {
-        p.setColor(Color.BLACK);
+        p.setColor(Color.WHITE);
         p.setAlpha(255);
         p.setStrokeWidth(1);
         canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), p);

@@ -84,9 +84,16 @@ public class GameplayFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        // Hide ui
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
+        // Show ui
     }
 
     @Override

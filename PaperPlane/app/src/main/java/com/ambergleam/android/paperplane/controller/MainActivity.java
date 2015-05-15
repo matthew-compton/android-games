@@ -126,10 +126,22 @@ public class MainActivity extends FragmentActivity
         if (fragment != null) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
+            setFragmentTransactionAnimation(ft);
             ft.replace(R.id.activity_main_container, fragment);
             ft.commit();
         } else {
             Timber.e("Error in creating fragment.");
+        }
+    }
+
+    private void setFragmentTransactionAnimation(FragmentTransaction ft) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_container);
+        if (fragment instanceof MenuFragment) {
+            ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+        } else if (fragment instanceof GameplayFragment) {
+            ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+        } else {
+            // Nothing
         }
     }
 
@@ -220,7 +232,8 @@ public class MainActivity extends FragmentActivity
     public void onGameover(int time, int distance) {
         mOutbox.update(time, distance);
         saveData();
-        updateFragment(GameoverFragment.newInstance(time, distance));
+        updateFragment(MenuFragment.newInstance(isSignedIn(), getPlayerName()));
+//        updateFragment(GameoverFragment.newInstance(time, distance));
     }
 
     private boolean isSignedIn() {

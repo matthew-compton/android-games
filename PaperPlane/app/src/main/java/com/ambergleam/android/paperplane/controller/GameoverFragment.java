@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ambergleam.android.paperplane.R;
+import com.ambergleam.android.paperplane.util.DistanceUtils;
 import com.ambergleam.android.paperplane.util.TimeUtils;
 
 import butterknife.ButterKnife;
@@ -71,7 +72,7 @@ public class GameoverFragment extends Fragment {
 
     private void updateUI() {
         mTimeTextView.setText(getString(R.string.fragment_gameover_time, TimeUtils.formatTime(mTime)));
-        mDistanceTextView.setText(getString(R.string.fragment_gameover_distance, mDistance));
+        mDistanceTextView.setText(getString(R.string.fragment_gameover_distance, DistanceUtils.formatDistance(mDistance)));
     }
 
     public interface Callbacks {

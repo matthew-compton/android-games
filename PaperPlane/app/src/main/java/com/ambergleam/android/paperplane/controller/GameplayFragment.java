@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.ambergleam.android.paperplane.R;
 import com.ambergleam.android.paperplane.model.AbstractEntity;
 import com.ambergleam.android.paperplane.model.Plane;
+import com.ambergleam.android.paperplane.util.DistanceUtils;
 import com.ambergleam.android.paperplane.util.TimeUtils;
 import com.ambergleam.android.paperplane.view.GameplayView;
 
@@ -128,7 +129,7 @@ public class GameplayFragment extends Fragment {
 
     private void updateUI() {
         mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
-        mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, mDistance));
+        mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, DistanceUtils.formatDistance(mDistance)));
     }
 
     public interface Callbacks {

@@ -1,6 +1,8 @@
 package com.ambergleam.android.paperplane.controller;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.ambergleam.android.paperplane.manager.DataManager;
 import com.ambergleam.android.paperplane.model.AbstractEntity;
 import com.ambergleam.android.paperplane.model.Plane;
 import com.ambergleam.android.paperplane.util.DistanceUtils;
+import com.ambergleam.android.paperplane.util.SystemUtils;
 import com.ambergleam.android.paperplane.util.TimeUtils;
 import com.ambergleam.android.paperplane.view.GameplayView;
 
@@ -62,6 +65,21 @@ public class GameplayFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_gameplay, container, false);
         ButterKnife.inject(this, layout);
 
+        setupGame();
+        showReadyDialog();
+
+        // TODO - replace with actual finish condition
+        mGameplayView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showGameoverDialog();
+            }
+        });
+
+        return layout;
+    }
+
+    private void setupGame() {
         Plane plane = new Plane(
                 BitmapFactory.decodeResource(getResources(), R.drawable.paperplane),
                 new Point(mGameplayView.getWidthHalf(), mGameplayView.getHeightHalf()),
@@ -72,23 +90,51 @@ public class GameplayFragment extends Fragment {
         ArrayList<AbstractEntity> entities = new ArrayList<>();
         entities.add(plane);
         mGameplayView.setEntities(entities);
+    }
 
-        Handler h = new Handler();
-        h.post(new Runnable() {
-            @Override
-            public void run() {
-                init();
-            }
-        });
+    private void showReadyDialog() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.fragment_gameplay_ready))
+                .setNeutralButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        SystemUtils.hideSystemUI(getActivity());
+                        new Handler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                init();
+                            }
+                        });
+                    }
+                })
+                .show();
+    }
 
-        mGameplayView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallbacks.onGameover(mTime, mDistance);
-            }
-        });
+    private void showGameoverDialog() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.fragment_gameplay_gameover))
+                .setMessage(getResultsString())
+                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        mCallbacks.onGameover(mTime, mDistance);
+                    }
+                })
+                .show();
+    }
 
-        return layout;
+    private String getResultsString() {
+        String time = getString(R.string.fragment_gameplay_gameover_time, TimeUtils.formatTime(mTime));
+        String distance = getString(R.string.fragment_gameplay_gameover_distance, DistanceUtils.formatDistance(mDistance));
+        return time + "\n" + distance;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SystemUtils.hideSystemUI(getActivity());
     }
 
     @Override

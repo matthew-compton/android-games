@@ -185,8 +185,8 @@ public class MainActivity extends FragmentActivity
     @Override
     public void onQuitRequested() {
         new AlertDialog.Builder(this)
-                .setTitle("Quit?")
-                .setMessage("Are you sure you want to quit?")
+                .setTitle(getString(R.string.fragment_menu_quit_dialog_title))
+                .setMessage(getString(R.string.fragment_menu_quit_dialog_message))
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -232,8 +232,8 @@ public class MainActivity extends FragmentActivity
     public void onSignOutRequested() {
         Timber.d("Sign out requested.");
         new AlertDialog.Builder(this)
-                .setTitle("Sign Out?")
-                .setMessage("Are you sure you want to sign out?")
+                .setTitle(getString(R.string.fragment_menu_sign_out_dialog_title))
+                .setMessage(getString(R.string.fragment_menu_sign_out_dialog_message))
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

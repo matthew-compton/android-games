@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class AchievementManager implements UpdateInterface {
+public class AchievementManager implements DataInterface {
 
     public boolean mTimeAchievement_10_Unlocked;
     public boolean mTimeAchievement_100_Unlocked;
@@ -23,7 +23,7 @@ public class AchievementManager implements UpdateInterface {
 
     @Inject
     public AchievementManager() {
-
+        reset();
     }
 
     @Override
@@ -81,6 +81,23 @@ public class AchievementManager implements UpdateInterface {
         if (mDistanceAchievement_10000_Unlocked) {
             Games.Achievements.unlock(mGoogleApiClient, context.getString(R.string.achievement_id_distance_10000));
         }
+    }
+
+    @Override
+    public void load(Context context, GoogleApiClient mGoogleApiClient) {
+        // TODO
+    }
+
+    @Override
+    public void reset() {
+        mTimeAchievement_10_Unlocked = false;
+        mTimeAchievement_100_Unlocked = false;
+        mTimeAchievement_1000_Unlocked = false;
+        mTimeAchievement_10000_Unlocked = false;
+        mDistanceAchievement_10_Unlocked = false;
+        mDistanceAchievement_100_Unlocked = false;
+        mDistanceAchievement_1000_Unlocked = false;
+        mDistanceAchievement_10000_Unlocked = false;
     }
 
 }

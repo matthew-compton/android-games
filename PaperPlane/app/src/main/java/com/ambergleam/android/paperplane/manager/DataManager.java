@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class DataManager implements UpdateInterface {
+public class DataManager implements DataInterface {
 
     private LeaderboardManager mLeaderboardManager;
     private AchievementManager mAchievementManager;
@@ -29,6 +29,18 @@ public class DataManager implements UpdateInterface {
     public void save(Context context, GoogleApiClient mGoogleApiClient) {
         mLeaderboardManager.save(context, mGoogleApiClient);
         mAchievementManager.save(context, mGoogleApiClient);
+    }
+
+    @Override
+    public void load(Context context, GoogleApiClient mGoogleApiClient) {
+        mLeaderboardManager.load(context, mGoogleApiClient);
+        mAchievementManager.load(context, mGoogleApiClient);
+    }
+
+    @Override
+    public void reset() {
+        mLeaderboardManager.reset();
+        mAchievementManager.reset();
     }
 
     public int getBestTime() {

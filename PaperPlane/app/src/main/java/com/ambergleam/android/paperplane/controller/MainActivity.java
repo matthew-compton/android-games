@@ -147,6 +147,7 @@ public class MainActivity extends FragmentActivity
         Timber.d("Connected to Google APIs");
         updateUI();
         saveData();
+        loadData();
     }
 
     @Override
@@ -237,11 +238,8 @@ public class MainActivity extends FragmentActivity
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mSignInClicked = false;
-                        Games.signOut(mGoogleApiClient);
-                        if (mGoogleApiClient.isConnected()) {
-                            mGoogleApiClient.disconnect();
-                        }
+                        saveData();
+                        signout();
                         updateUI();
                         dialog.dismiss();
                     }
@@ -255,6 +253,15 @@ public class MainActivity extends FragmentActivity
                 .show();
     }
 
+    private void signout() {
+        mDataManager.reset();
+        mSignInClicked = false;
+        Games.signOut(mGoogleApiClient);
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
     @Override
     public void onGameover(int time, int distance) {
         mDataManager.update(time, distance);
@@ -266,7 +273,7 @@ public class MainActivity extends FragmentActivity
         return (mGoogleApiClient != null && mGoogleApiClient.isConnected());
     }
 
-    private void updateUI() {
+    public void updateUI() {
         // Update currently displayed Fragment
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_container);
         if (fragment instanceof MenuFragment) {
@@ -295,6 +302,10 @@ public class MainActivity extends FragmentActivity
         } else {
             // TODO - save local
         }
+    }
+
+    private void loadData() {
+        mDataManager.load(this, mGoogleApiClient);
     }
 
     @Override

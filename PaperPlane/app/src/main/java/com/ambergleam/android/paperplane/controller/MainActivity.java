@@ -1,6 +1,8 @@
 package com.ambergleam.android.paperplane.controller;
 
 import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -176,12 +178,29 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onStartGameRequested() {
+        SystemUtils.hideSystemUI(MainActivity.this);
         updateFragment(GameplayFragment.newInstance());
     }
 
     @Override
     public void onQuitRequested() {
-        finish();
+        new AlertDialog.Builder(this)
+                .setTitle("Quit?")
+                .setMessage("Are you sure you want to quit?")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        SystemUtils.hideSystemUI(MainActivity.this);
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -212,12 +231,29 @@ public class MainActivity extends FragmentActivity
     @Override
     public void onSignOutRequested() {
         Timber.d("Sign out requested.");
-        mSignInClicked = false;
-        Games.signOut(mGoogleApiClient);
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
-        updateUI();
+        new AlertDialog.Builder(this)
+                .setTitle("Sign Out?")
+                .setMessage("Are you sure you want to sign out?")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mSignInClicked = false;
+                        Games.signOut(mGoogleApiClient);
+                        if (mGoogleApiClient.isConnected()) {
+                            mGoogleApiClient.disconnect();
+                        }
+                        updateUI();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        SystemUtils.hideSystemUI(MainActivity.this);
+                    }
+                })
+                .show();
     }
 
     @Override

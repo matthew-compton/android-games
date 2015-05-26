@@ -300,12 +300,16 @@ public class MainActivity extends FragmentActivity
         if (isSignedIn()) {
             mDataManager.save(this, mGoogleApiClient);
         } else {
-            // TODO - save local
+            Timber.e("Must be signed in to save data.");
         }
     }
 
     private void loadData() {
-        mDataManager.load(this, mGoogleApiClient);
+        if (isSignedIn()) {
+            mDataManager.load(this, mGoogleApiClient);
+        } else {
+            Timber.e("Must be signed in to load data.");
+        }
     }
 
     @Override

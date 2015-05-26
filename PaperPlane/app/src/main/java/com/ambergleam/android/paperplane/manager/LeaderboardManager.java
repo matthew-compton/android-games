@@ -3,7 +3,11 @@ package com.ambergleam.android.paperplane.manager;
 import android.content.Context;
 
 import com.ambergleam.android.paperplane.R;
-import com.ambergleam.android.paperplane.controller.MainActivity;
+import com.ambergleam.android.paperplane.event.EventHelper;
+import com.ambergleam.android.paperplane.event.LoadLeaderboardDistanceFailureEvent;
+import com.ambergleam.android.paperplane.event.LoadLeaderboardDistanceSuccessEvent;
+import com.ambergleam.android.paperplane.event.LoadLeaderboardTimeFailureEvent;
+import com.ambergleam.android.paperplane.event.LoadLeaderboardTimeSuccessEvent;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
@@ -53,10 +57,13 @@ public class LeaderboardManager implements DataInterface {
                 .setResultCallback(new ResultCallback<Leaderboards.LoadPlayerScoreResult>() {
                     @Override
                     public void onResult(Leaderboards.LoadPlayerScoreResult result) {
+                        if (result == null) {
+                            EventHelper.postEvent(new LoadLeaderboardTimeFailureEvent());
+                        }
                         LeaderboardScore score = result.getScore();
                         int time = (int) score.getRawScore();
                         updateBestTime(time);
-                        ((MainActivity) context).updateUI();
+                        EventHelper.postEvent(new LoadLeaderboardTimeSuccessEvent());
                         Timber.i("Load Time: " + time);
                     }
                 });
@@ -68,12 +75,14 @@ public class LeaderboardManager implements DataInterface {
                 .setResultCallback(new ResultCallback<Leaderboards.LoadPlayerScoreResult>() {
                     @Override
                     public void onResult(Leaderboards.LoadPlayerScoreResult result) {
+                        if (result == null) {
+                            EventHelper.postEvent(new LoadLeaderboardDistanceFailureEvent());
+                        }
                         LeaderboardScore score = result.getScore();
                         int distance = (int) score.getRawScore();
                         updateBestDistance(distance);
-                        ((MainActivity) context).updateUI();
+                        EventHelper.postEvent(new LoadLeaderboardDistanceSuccessEvent());
                         Timber.i("Load Distance: " + distance);
-
                     }
                 });
     }

@@ -17,6 +17,13 @@ import android.util.TypedValue;
 
 import com.ambergleam.android.paperplane.BaseApplication;
 import com.ambergleam.android.paperplane.R;
+import com.ambergleam.android.paperplane.event.EventHelper;
+import com.ambergleam.android.paperplane.event.LoadDataFailureEvent;
+import com.ambergleam.android.paperplane.event.LoadDataSuccessEvent;
+import com.ambergleam.android.paperplane.event.LoadLeaderboardDistanceFailureEvent;
+import com.ambergleam.android.paperplane.event.LoadLeaderboardDistanceSuccessEvent;
+import com.ambergleam.android.paperplane.event.LoadLeaderboardTimeFailureEvent;
+import com.ambergleam.android.paperplane.event.LoadLeaderboardTimeSuccessEvent;
 import com.ambergleam.android.paperplane.manager.DataManager;
 import com.ambergleam.android.paperplane.util.DialogUtils;
 import com.ambergleam.android.paperplane.util.GameUtils;
@@ -41,6 +48,8 @@ public class MainActivity extends FragmentActivity
     private static final int REQUEST_CODE_SIGNIN = 0;
     private static final int REQUEST_CODE_UNUSED = 1;
 
+    private static final int LOAD_COUNT_TOTAL = 2;
+
     @Inject DataManager mDataManager;
 
     private GoogleApiClient mGoogleApiClient;
@@ -48,12 +57,15 @@ public class MainActivity extends FragmentActivity
     private boolean mSignInClicked;
     private boolean mAutoStartSignInFlow;
 
+    private int mCurrentLoadCount = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BaseApplication.get(this).inject(this);
         ButterKnife.inject(this);
+        EventHelper.registerSubscriber(this);
 
         setupGoogleApiClient();
         setupOverviewScreen();
@@ -73,6 +85,12 @@ public class MainActivity extends FragmentActivity
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventHelper.unregisterSubscriber(this);
     }
 
     @Override
@@ -273,7 +291,7 @@ public class MainActivity extends FragmentActivity
         return (mGoogleApiClient != null && mGoogleApiClient.isConnected());
     }
 
-    public void updateUI() {
+    private void updateUI() {
         // Update currently displayed Fragment
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_container);
         if (fragment instanceof MenuFragment) {
@@ -308,8 +326,45 @@ public class MainActivity extends FragmentActivity
         if (isSignedIn()) {
             mDataManager.load(this, mGoogleApiClient);
         } else {
-            Timber.e("Must be signed in to load data.");
+            loadDataFailureEvent();
         }
+    }
+
+    public void onEventMainThread(LoadDataSuccessEvent event) {
+        updateUI();
+        Timber.i("Successfully loaded data.");
+    }
+
+    public void onEventMainThread(LoadDataFailureEvent event) {
+        mCurrentLoadCount = 0;
+        Timber.i("Failed to load data.");
+    }
+
+    public void onEventMainThread(LoadLeaderboardTimeSuccessEvent event) {
+        loadDataSuccessEvent();
+    }
+
+    public void onEventMainThread(LoadLeaderboardTimeFailureEvent event) {
+        loadDataFailureEvent();
+    }
+
+    public void onEventMainThread(LoadLeaderboardDistanceSuccessEvent event) {
+        loadDataSuccessEvent();
+    }
+
+    public void onEventMainThread(LoadLeaderboardDistanceFailureEvent event) {
+        loadDataFailureEvent();
+    }
+
+    private void loadDataSuccessEvent() {
+        mCurrentLoadCount++;
+        if (mCurrentLoadCount == LOAD_COUNT_TOTAL) {
+            EventHelper.postEvent(new LoadDataSuccessEvent());
+        }
+    }
+
+    private void loadDataFailureEvent() {
+        EventHelper.postEvent(new LoadDataFailureEvent());
     }
 
     @Override

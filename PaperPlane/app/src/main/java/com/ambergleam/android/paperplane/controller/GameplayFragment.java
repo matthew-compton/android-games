@@ -20,7 +20,6 @@ import com.ambergleam.android.paperplane.manager.DataManager;
 import com.ambergleam.android.paperplane.model.AbstractEntity;
 import com.ambergleam.android.paperplane.model.Plane;
 import com.ambergleam.android.paperplane.util.DistanceUtils;
-import com.ambergleam.android.paperplane.util.SystemUtils;
 import com.ambergleam.android.paperplane.util.TimeUtils;
 import com.ambergleam.android.paperplane.view.GameplayView;
 
@@ -59,7 +58,7 @@ public class GameplayFragment extends Fragment {
         BaseApplication.get(getActivity()).inject(this);
 
         mFrameUpdateHandler = new Handler();
-        mPaused = true;
+        pause();
         reset();
     }
 
@@ -75,7 +74,7 @@ public class GameplayFragment extends Fragment {
         mGameplayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showGameoverDialog();
+                gameover();
             }
         });
 
@@ -102,7 +101,6 @@ public class GameplayFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        SystemUtils.hideSystemUI(getActivity());
                         new Handler().post(new Runnable() {
                             @Override
                             public void run() {
@@ -111,6 +109,7 @@ public class GameplayFragment extends Fragment {
                         });
                     }
                 })
+                .setCancelable(false)
                 .show();
     }
 
@@ -125,6 +124,7 @@ public class GameplayFragment extends Fragment {
                         mCallbacks.onGameover(mTime, mDistance);
                     }
                 })
+                .setCancelable(false)
                 .show();
     }
 
@@ -135,22 +135,17 @@ public class GameplayFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        mPaused = false;
+                        unpause();
                     }
                 })
+                .setCancelable(false)
                 .show();
     }
 
     private String getResultsString() {
         String time = getString(R.string.fragment_gameplay_gameover_time, TimeUtils.formatTime(mTime));
         String distance = getString(R.string.fragment_gameplay_gameover_distance, DistanceUtils.formatDistance(mDistance));
-        return time + "\n" + distance;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        SystemUtils.hideSystemUI(getActivity());
+        return time + "\n\n" + distance;
     }
 
     @Override
@@ -209,8 +204,22 @@ public class GameplayFragment extends Fragment {
 
     @OnClick(R.id.fragment_gameplay_pause)
     public void onClickPause() {
-        mPaused = true;
+        pause();
         showPausedDialog();
+    }
+
+    private void pause() {
+        mPaused = true;
+    }
+
+    private void unpause() {
+        mPaused = false;
+        mFrameUpdateHandler.post(mFrameUpdateRunnable);
+    }
+
+    private void gameover() {
+        mPaused = true;
+        showGameoverDialog();
     }
 
     public interface Callbacks {

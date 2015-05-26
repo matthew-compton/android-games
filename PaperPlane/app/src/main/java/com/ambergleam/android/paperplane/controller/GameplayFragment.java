@@ -30,6 +30,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class GameplayFragment extends Fragment {
 
@@ -43,6 +44,7 @@ public class GameplayFragment extends Fragment {
 
     private Callbacks mCallbacks;
     private Handler mFrameUpdateHandler;
+    private boolean mPaused;
 
     private int mDistance;
     private int mTime;
@@ -57,6 +59,7 @@ public class GameplayFragment extends Fragment {
         BaseApplication.get(getActivity()).inject(this);
 
         mFrameUpdateHandler = new Handler();
+        mPaused = true;
         reset();
     }
 
@@ -125,6 +128,19 @@ public class GameplayFragment extends Fragment {
                 .show();
     }
 
+    private void showPausedDialog() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.fragment_gameplay_paused))
+                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        mPaused = false;
+                    }
+                })
+                .show();
+    }
+
     private String getResultsString() {
         String time = getString(R.string.fragment_gameplay_gameover_time, TimeUtils.formatTime(mTime));
         String distance = getString(R.string.fragment_gameplay_gameover_distance, DistanceUtils.formatDistance(mDistance));
@@ -161,6 +177,7 @@ public class GameplayFragment extends Fragment {
     }
 
     synchronized private void init() {
+        mPaused = false;
         mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
         mGameplayView.invalidate();
         updateUI();
@@ -170,6 +187,10 @@ public class GameplayFragment extends Fragment {
     private Runnable mFrameUpdateRunnable = new Runnable() {
         @Override
         synchronized public void run() {
+            if (mPaused) {
+                return;
+            }
+
             mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
             mGameplayView.invalidate();
 
@@ -184,6 +205,12 @@ public class GameplayFragment extends Fragment {
     private void updateUI() {
         mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
         mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, DistanceUtils.formatDistance(mDistance)));
+    }
+
+    @OnClick(R.id.fragment_gameplay_pause)
+    public void onClickPause() {
+        mPaused = true;
+        showPausedDialog();
     }
 
     public interface Callbacks {

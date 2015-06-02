@@ -300,7 +300,8 @@ public class MainActivity extends FragmentActivity
             menuFragment.setWelcomeMessage(getPlayerName());
             menuFragment.updateUI();
         } else if (fragment instanceof GameplayFragment) {
-            // Nothing
+            GameplayFragment gameplayFragment = (GameplayFragment) fragment;
+            gameplayFragment.pause();
         } else {
             Timber.e("Error with updating current Fragment.");
         }
@@ -369,6 +370,7 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onBackPressed() {
+        updateUI();
         showQuitDialog();
     }
 

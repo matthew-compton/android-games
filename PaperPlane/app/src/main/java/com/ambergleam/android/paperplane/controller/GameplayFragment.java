@@ -36,7 +36,12 @@ public class GameplayFragment extends Fragment {
 
     private Callbacks mCallbacks;
     private Handler mFrameUpdateHandler;
-    private boolean mPaused;
+    private GameState mGameState;
+
+    public enum GameState {
+        PAUSED,
+        RUNNING
+    }
 
     private int mDistance;
     private int mTime;
@@ -51,7 +56,7 @@ public class GameplayFragment extends Fragment {
         BaseApplication.get(getActivity()).inject(this);
 
         mFrameUpdateHandler = new Handler();
-        pause();
+        mGameState = null;
         reset();
     }
 
@@ -64,6 +69,14 @@ public class GameplayFragment extends Fragment {
         showReadyDialog();
 
         return layout;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mGameState != null) {
+            unpause();
+        }
     }
 
     private void showReadyDialog() {
@@ -144,7 +157,7 @@ public class GameplayFragment extends Fragment {
     }
 
     synchronized private void init() {
-        mPaused = false;
+        mGameState = GameState.RUNNING;
         mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
         mGameplayView.invalidate();
         updateUI();
@@ -154,7 +167,7 @@ public class GameplayFragment extends Fragment {
     private Runnable mFrameUpdateRunnable = new Runnable() {
         @Override
         synchronized public void run() {
-            if (mPaused) {
+            if (mGameState == GameState.PAUSED) {
                 return;
             }
 
@@ -184,17 +197,17 @@ public class GameplayFragment extends Fragment {
         showPausedDialog();
     }
 
-    private void pause() {
-        mPaused = true;
+    public void pause() {
+        mGameState = GameState.PAUSED;
     }
 
-    private void unpause() {
-        mPaused = false;
+    public void unpause() {
+        mGameState = GameState.RUNNING;
         mFrameUpdateHandler.post(mFrameUpdateRunnable);
     }
 
     private void gameover() {
-        mPaused = true;
+        mGameState = null;
         showGameoverDialog();
     }
 

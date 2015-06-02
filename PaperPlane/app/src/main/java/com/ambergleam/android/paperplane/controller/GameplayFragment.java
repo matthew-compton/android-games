@@ -60,6 +60,34 @@ public class GameplayFragment extends Fragment {
         return layout;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
+
+    @OnClick(R.id.fragment_gameplay_pause)
+    public void onClickPause() {
+        pause();
+    }
+
+    @OnClick(R.id.fragment_gameplay_unpause)
+    public void onClickUnpause() {
+        unpause();
+    }
+
     private void showReadyDialog() {
         new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.fragment_gameplay_ready))
@@ -94,28 +122,23 @@ public class GameplayFragment extends Fragment {
                 .show();
     }
 
-    private String getResultsString() {
-        String time = getString(R.string.fragment_gameplay_gameover_time, TimeUtils.formatTime(mTime));
-        String distance = getString(R.string.fragment_gameplay_gameover_distance, DistanceUtils.formatDistance(mDistance));
-        return time + "\n\n" + distance;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mCallbacks = (Callbacks) activity;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallbacks = null;
+    private void updateUI() {
+        mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
+        mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, DistanceUtils.formatDistance(mDistance)));
+        switch (mGameState) {
+            case RUNNING:
+                mPauseImageView.setVisibility(View.VISIBLE);
+                mUnpauseImageView.setVisibility(View.GONE);
+                break;
+            case PAUSED:
+                mPauseImageView.setVisibility(View.GONE);
+                mUnpauseImageView.setVisibility(View.VISIBLE);
+                break;
+            default:
+                mPauseImageView.setVisibility(View.GONE);
+                mUnpauseImageView.setVisibility(View.GONE);
+                break;
+        }
     }
 
     private void reset() {
@@ -155,35 +178,6 @@ public class GameplayFragment extends Fragment {
         }
     };
 
-    private void updateUI() {
-        mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
-        mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, DistanceUtils.formatDistance(mDistance)));
-        switch (mGameState) {
-            case RUNNING:
-                mPauseImageView.setVisibility(View.VISIBLE);
-                mUnpauseImageView.setVisibility(View.GONE);
-                break;
-            case PAUSED:
-                mPauseImageView.setVisibility(View.GONE);
-                mUnpauseImageView.setVisibility(View.VISIBLE);
-                break;
-            default:
-                mPauseImageView.setVisibility(View.GONE);
-                mUnpauseImageView.setVisibility(View.GONE);
-                break;
-        }
-    }
-
-    @OnClick(R.id.fragment_gameplay_pause)
-    public void onClickPause() {
-        pause();
-    }
-
-    @OnClick(R.id.fragment_gameplay_unpause)
-    public void onClickUnpause() {
-        unpause();
-    }
-
     public GameState getGameState() {
         return mGameState;
     }
@@ -202,6 +196,12 @@ public class GameplayFragment extends Fragment {
     private void gameover() {
         mGameState = null;
         showGameoverDialog();
+    }
+
+    private String getResultsString() {
+        String time = getString(R.string.fragment_gameplay_gameover_time, TimeUtils.formatTime(mTime));
+        String distance = getString(R.string.fragment_gameplay_gameover_distance, DistanceUtils.formatDistance(mDistance));
+        return time + "\n\n" + distance;
     }
 
     public interface Callbacks {

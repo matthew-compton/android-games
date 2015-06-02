@@ -9,6 +9,8 @@ import com.google.android.gms.games.Games;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import timber.log.Timber;
+
 @Singleton
 public class AchievementManager implements DataInterface {
 
@@ -85,7 +87,7 @@ public class AchievementManager implements DataInterface {
 
     @Override
     public void load(Context context, GoogleApiClient mGoogleApiClient) {
-        // TODO
+        Timber.d("Achievements not loaded.");
     }
 
     @Override

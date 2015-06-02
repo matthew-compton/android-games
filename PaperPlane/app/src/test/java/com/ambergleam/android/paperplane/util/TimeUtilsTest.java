@@ -18,8 +18,8 @@ public class TimeUtilsTest {
     @Test
     public void testTimeUtilsForMinutesSeconds() {
         // 35 minutes, 15 seconds
-        int testTimeMilliseconds = (35 * TimeUtils.SECONDS_PER_MINUTE * TimeUtils.MILLISECONDS_PER_SECOND) + (15 * TimeUtils.MILLISECONDS_PER_SECOND);
-        String expectedTimeString = "35:15.000";
+        int testTimeMilliseconds = (5 * TimeUtils.SECONDS_PER_MINUTE * TimeUtils.MILLISECONDS_PER_SECOND) + (5 * TimeUtils.MILLISECONDS_PER_SECOND);
+        String expectedTimeString = "05:05.000";
         String actualTimeString = TimeUtils.formatTime(testTimeMilliseconds);
         assertThat(actualTimeString).isEqualTo(expectedTimeString);
     }
@@ -27,8 +27,8 @@ public class TimeUtilsTest {
     @Test
     public void testTimeUtilsForSeconds() {
         // 22 seconds
-        int testTimeMilliseconds = 22 * TimeUtils.MILLISECONDS_PER_SECOND;
-        String expectedTimeString = "22.000 s";
+        int testTimeMilliseconds = 2 * TimeUtils.MILLISECONDS_PER_SECOND;
+        String expectedTimeString = "2.000 s";
         String actualTimeString = TimeUtils.formatTime(testTimeMilliseconds);
         assertThat(actualTimeString).isEqualTo(expectedTimeString);
     }

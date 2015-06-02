@@ -20,10 +20,10 @@ public class TimeUtils {
             format = "%d.%03d s";
             formattedTime = String.format(format, seconds, milliseconds);
         } else if (hours == 0) {
-            format = "%d:%d.%03d";
+            format = "%02d:%02d.%03d";
             formattedTime = String.format(format, minutes, seconds, milliseconds);
         } else {
-            format = "%d:%d:%d.%03d";
+            format = "%d:%02d:%02d.%03d";
             formattedTime = String.format(format, hours, minutes, seconds, milliseconds);
         }
         return formattedTime;

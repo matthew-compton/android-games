@@ -25,6 +25,7 @@ import com.ambergleam.android.paperplane.event.LoadLeaderboardDistanceSuccessEve
 import com.ambergleam.android.paperplane.event.LoadLeaderboardTimeFailureEvent;
 import com.ambergleam.android.paperplane.event.LoadLeaderboardTimeSuccessEvent;
 import com.ambergleam.android.paperplane.manager.DataManager;
+import com.ambergleam.android.paperplane.model.GameState;
 import com.ambergleam.android.paperplane.util.DialogUtils;
 import com.ambergleam.android.paperplane.util.GameUtils;
 import com.google.android.gms.common.ConnectionResult;
@@ -47,6 +48,8 @@ public class MainActivity extends FragmentActivity
 
     private static final int REQUEST_CODE_SIGNIN = 0;
     private static final int REQUEST_CODE_UNUSED = 1;
+
+    private static final String TAG_QUIT = "MainActivity.QuitDialogFragment";
 
     private static final int LOAD_COUNT_TOTAL = 2;
 
@@ -199,22 +202,7 @@ public class MainActivity extends FragmentActivity
     }
 
     private void showQuitDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.fragment_menu_quit_dialog_title))
-                .setMessage(getString(R.string.fragment_menu_quit_dialog_message))
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                })
-                .show();
+        QuitDialogFragment.newInstance().show(getSupportFragmentManager(), TAG_QUIT);
     }
 
     @Override
@@ -296,7 +284,9 @@ public class MainActivity extends FragmentActivity
             menuFragment.updateUI();
         } else if (fragment instanceof GameplayFragment) {
             GameplayFragment gameplayFragment = (GameplayFragment) fragment;
-            gameplayFragment.pause();
+            if (gameplayFragment.getGameState() == GameState.RUNNING) {
+                gameplayFragment.pause();
+            }
         } else {
             Timber.e("Error with updating current Fragment.");
         }

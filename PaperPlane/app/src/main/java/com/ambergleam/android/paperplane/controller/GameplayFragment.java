@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ambergleam.android.paperplane.R;
@@ -28,6 +29,8 @@ public class GameplayFragment extends Fragment {
     @InjectView(R.id.fragment_gameplay_view) GameplayView mGameplayView;
     @InjectView(R.id.fragment_gameplay_time) TextView mTimeTextView;
     @InjectView(R.id.fragment_gameplay_distance) TextView mDistanceTextView;
+    @InjectView(R.id.fragment_gameplay_pause) ImageView mPauseImageView;
+    @InjectView(R.id.fragment_gameplay_unpause) ImageView mUnpauseImageView;
 
     private Callbacks mCallbacks;
     private Handler mFrameUpdateHandler;
@@ -55,14 +58,6 @@ public class GameplayFragment extends Fragment {
         showReadyDialog();
 
         return layout;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mGameState != null) {
-            unpause();
-        }
     }
 
     private void showReadyDialog() {
@@ -93,20 +88,6 @@ public class GameplayFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         mCallbacks.onGameover(mTime, mDistance);
-                    }
-                })
-                .setCancelable(false)
-                .show();
-    }
-
-    private void showPausedDialog() {
-        new AlertDialog.Builder(getActivity())
-                .setTitle(getString(R.string.fragment_gameplay_paused))
-                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        unpause();
                     }
                 })
                 .setCancelable(false)
@@ -177,20 +158,44 @@ public class GameplayFragment extends Fragment {
     private void updateUI() {
         mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
         mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, DistanceUtils.formatDistance(mDistance)));
+        switch (mGameState) {
+            case RUNNING:
+                mPauseImageView.setVisibility(View.VISIBLE);
+                mUnpauseImageView.setVisibility(View.GONE);
+                break;
+            case PAUSED:
+                mPauseImageView.setVisibility(View.GONE);
+                mUnpauseImageView.setVisibility(View.VISIBLE);
+                break;
+            default:
+                mPauseImageView.setVisibility(View.GONE);
+                mUnpauseImageView.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @OnClick(R.id.fragment_gameplay_pause)
     public void onClickPause() {
         pause();
-        showPausedDialog();
+    }
+
+    @OnClick(R.id.fragment_gameplay_unpause)
+    public void onClickUnpause() {
+        unpause();
+    }
+
+    public GameState getGameState() {
+        return mGameState;
     }
 
     public void pause() {
         mGameState = GameState.PAUSED;
+        updateUI();
     }
 
     public void unpause() {
         mGameState = GameState.RUNNING;
+        updateUI();
         mFrameUpdateHandler.post(mFrameUpdateRunnable);
     }
 

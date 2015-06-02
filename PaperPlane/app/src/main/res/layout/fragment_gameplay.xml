@@ -59,6 +59,14 @@
             android:layout_height="match_parent"/>
 
         <ImageView
+            android:id="@+id/fragment_gameplay_restart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:padding="@dimen/padding_small"
+            android:src="@android:drawable/ic_menu_revert"/>
+
+        <ImageView
             android:id="@+id/fragment_gameplay_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -44,16 +44,10 @@ public class GameplayFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        reset();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_gameplay, container, false);
         ButterKnife.inject(this, layout);
-        showReadyDialog();
+        start();
         return layout;
     }
 
@@ -75,6 +69,11 @@ public class GameplayFragment extends Fragment {
         mCallbacks = null;
     }
 
+    @OnClick(R.id.fragment_gameplay_restart)
+    public void onClickRestart() {
+        restart();
+    }
+
     @OnClick(R.id.fragment_gameplay_pause)
     public void onClickPause() {
         pause();
@@ -83,6 +82,26 @@ public class GameplayFragment extends Fragment {
     @OnClick(R.id.fragment_gameplay_unpause)
     public void onClickUnpause() {
         unpause();
+    }
+
+    private void showRestartDialog() {
+        pause();
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.fragment_gameplay_restart))
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        start();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
     private void showReadyDialog() {
@@ -122,27 +141,25 @@ public class GameplayFragment extends Fragment {
     private void updateUI() {
         mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
         mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, DistanceUtils.formatDistance(mDistance)));
-        switch (mGameState) {
-            case RUNNING:
-                mPauseImageView.setVisibility(View.VISIBLE);
-                mUnpauseImageView.setVisibility(View.GONE);
-                break;
-            case PAUSED:
-                mPauseImageView.setVisibility(View.GONE);
-                mUnpauseImageView.setVisibility(View.VISIBLE);
-                break;
-            default:
-                mPauseImageView.setVisibility(View.GONE);
-                mUnpauseImageView.setVisibility(View.GONE);
-                break;
+        if (mGameState == GameState.RUNNING) {
+            mPauseImageView.setVisibility(View.VISIBLE);
+            mUnpauseImageView.setVisibility(View.GONE);
+        } else if (mGameState == GameState.PAUSED) {
+            mPauseImageView.setVisibility(View.GONE);
+            mUnpauseImageView.setVisibility(View.VISIBLE);
+        } else {
+            mPauseImageView.setVisibility(View.GONE);
+            mUnpauseImageView.setVisibility(View.GONE);
         }
     }
 
     private void reset() {
+        mGameplayView.reset();
         mFrameUpdateHandler = new Handler();
         mGameState = null;
         mTime = 0;
         mDistance = 0;
+        updateUI();
     }
 
     synchronized private void init() {
@@ -193,6 +210,15 @@ public class GameplayFragment extends Fragment {
     private void gameover() {
         mGameState = null;
         showGameoverDialog();
+    }
+
+    private void start() {
+        reset();
+        showReadyDialog();
+    }
+
+    private void restart() {
+        showRestartDialog();
     }
 
     private String getResultsString() {

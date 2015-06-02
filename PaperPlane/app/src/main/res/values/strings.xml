@@ -27,6 +27,7 @@
 
     <!-- Gameplay -->
     <string name="fragment_gameplay_ready">Ready?</string>
+    <string name="fragment_gameplay_restart">Restart</string>
     <string name="fragment_gameplay_paused">Paused</string>
     <string name="fragment_gameplay_gameover">Game Over</string>
     <string name="fragment_gameplay_gameover_time">Time:\n<xliff:g example="22.220 s" id="time">%1$s</xliff:g></string>

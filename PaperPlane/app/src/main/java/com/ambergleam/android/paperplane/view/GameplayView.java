@@ -29,6 +29,10 @@ public class GameplayView extends View {
     public GameplayView(Context context, AttributeSet aSet) {
         super(context, aSet);
         p = new Paint();
+        reset();
+    }
+
+    public void reset() {
         mIsSetup = false;
     }
 

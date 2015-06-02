@@ -53,10 +53,7 @@ public class GameplayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_gameplay, container, false);
         ButterKnife.inject(this, layout);
-
-        mGameplayView.setupGame();
         showReadyDialog();
-
         return layout;
     }
 

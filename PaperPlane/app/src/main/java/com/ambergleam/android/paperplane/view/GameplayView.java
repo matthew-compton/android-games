@@ -24,19 +24,24 @@ public class GameplayView extends View {
 
     private int mCanvasWidth;
     private int mCanvasHeight;
+    private boolean mIsSetup;
 
     public GameplayView(Context context, AttributeSet aSet) {
         super(context, aSet);
         p = new Paint();
-        setupGame();
+        mIsSetup = false;
     }
 
     @Override
     synchronized public void onDraw(Canvas canvas) {
         mCanvasWidth = canvas.getWidth();
         mCanvasHeight = canvas.getHeight();
-        clearScreen(canvas);
-        drawSprites(canvas);
+        if (!mIsSetup && mCanvasWidth > 0 && mCanvasHeight > 0) {
+            setupGame();
+        } else if (mIsSetup) {
+            clearScreen(canvas);
+            drawSprites(canvas);
+        }
     }
 
     private void clearScreen(Canvas canvas) {
@@ -57,27 +62,28 @@ public class GameplayView extends View {
         canvas.drawBitmap(sprite.getBitmap(), sprite.getPositionX(), sprite.getPositionY(), null);
     }
 
-    public void setupGame() {
+    private void setupGame() {
+        mIsSetup = true;
         mPlane = new Plane(
                 BitmapFactory.decodeResource(getResources(), R.drawable.paperplane),
-                new Point(0, 0),
+                new Point(0, mCanvasHeight / 2),
                 new Point(1, 0)
         );
         mEntities = new ArrayList<>();
         mEntities.add(new Plane(
                 BitmapFactory.decodeResource(getResources(), R.drawable.moon),
-                new Point(0, 150),
+                new Point(mCanvasWidth / 2, 0),
                 new Point(2, 0)
         ));
         mEntities.add(new Plane(
                 BitmapFactory.decodeResource(getResources(), R.drawable.moon),
-                new Point(0, 300),
-                new Point(3, 0)
+                new Point(mCanvasWidth / 2, mCanvasHeight / 2),
+                new Point(4, 0)
         ));
         mEntities.add(new Plane(
                 BitmapFactory.decodeResource(getResources(), R.drawable.moon),
-                new Point(0, 450),
-                new Point(4, 0)
+                new Point(mCanvasWidth / 2, mCanvasHeight),
+                new Point(8, 0)
         ));
     }
 

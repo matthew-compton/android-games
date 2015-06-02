@@ -49,9 +49,9 @@ public abstract class Entity {
         mVelocity = velocity;
     }
 
-    public void update() {
-        mPosition.x += getVelocityX();
-        mPosition.y += getVelocityY();
+    public void update(int maxWidth, int maxHeight) {
+        mPosition.x = (mPosition.x + getVelocityX()) % maxWidth;
+        mPosition.y = (mPosition.y + getVelocityY()) % maxHeight;
     }
 
     public boolean isColliding(Entity entity) {

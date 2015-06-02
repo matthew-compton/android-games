@@ -82,7 +82,7 @@ public class GameplayView extends View {
         ));
         mEntities.add(new Plane(
                 BitmapFactory.decodeResource(getResources(), R.drawable.moon),
-                new Point(mCanvasWidth / 2, mCanvasHeight),
+                new Point(mCanvasWidth / 2, mCanvasHeight-100),
                 new Point(8, 0)
         ));
     }
@@ -91,9 +91,9 @@ public class GameplayView extends View {
      * Return true if game continues, false if game is over
      */
     public boolean updateState() {
-        mPlane.update();
+        mPlane.update(mCanvasWidth, mCanvasHeight);
         for (Entity entity : mEntities) {
-            entity.update();
+            entity.update(mCanvasWidth, mCanvasHeight);
             if (mPlane.isColliding(entity)) {
                 return false;
             }

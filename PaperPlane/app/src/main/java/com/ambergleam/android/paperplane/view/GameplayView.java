@@ -1,13 +1,17 @@
 package com.ambergleam.android.paperplane.view;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.ambergleam.android.paperplane.model.AbstractEntity;
+import com.ambergleam.android.paperplane.R;
+import com.ambergleam.android.paperplane.model.Entity;
+import com.ambergleam.android.paperplane.model.Plane;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +19,8 @@ import java.util.List;
 public class GameplayView extends View {
 
     private Paint p;
-    private List<AbstractEntity> mEntities;
+    private Plane mPlane;
+    private List<Entity> mEntities;
 
     private int mCanvasWidth;
     private int mCanvasHeight;
@@ -23,7 +28,7 @@ public class GameplayView extends View {
     public GameplayView(Context context, AttributeSet aSet) {
         super(context, aSet);
         p = new Paint();
-        setEntities(new ArrayList<AbstractEntity>());
+        setupGame();
     }
 
     @Override
@@ -34,7 +39,6 @@ public class GameplayView extends View {
         drawSprites(canvas);
     }
 
-
     private void clearScreen(Canvas canvas) {
         p.setColor(Color.WHITE);
         p.setAlpha(255);
@@ -43,13 +47,41 @@ public class GameplayView extends View {
     }
 
     private void drawSprites(Canvas canvas) {
-        for (AbstractEntity abstractEntity : mEntities) {
-            canvas.drawBitmap(abstractEntity.getBitmap(), abstractEntity.getPositionX(), abstractEntity.getPositionY(), null);
+        drawSprite(canvas, mPlane);
+        for (Entity entity : mEntities) {
+            drawSprite(canvas, entity);
         }
     }
 
-    public void setEntities(ArrayList<AbstractEntity> entities) {
-        mEntities = entities;
+    private void drawSprite(Canvas canvas, Entity sprite) {
+        canvas.drawBitmap(sprite.getBitmap(), sprite.getPositionX(), sprite.getPositionY(), null);
+    }
+
+    public void setupGame() {
+        mPlane = new Plane(
+                BitmapFactory.decodeResource(getResources(), R.drawable.paperplane),
+                new Point(0, getHeightHalf()),
+                new Point(1, 0)
+        );
+        mEntities = new ArrayList<>();
+    }
+
+    /*
+     * Return true if game continues, false if game is over
+     */
+    public boolean updateState() {
+        mPlane.update();
+        for (Entity entity : mEntities) {
+            entity.update();
+            if (mPlane.isColliding(entity)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Plane getPlane() {
+        return mPlane;
     }
 
     public int getWidthHalf() {

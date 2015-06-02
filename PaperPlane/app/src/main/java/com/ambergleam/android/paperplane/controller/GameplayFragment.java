@@ -3,12 +3,9 @@ package com.ambergleam.android.paperplane.controller;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +14,9 @@ import android.widget.TextView;
 import com.ambergleam.android.paperplane.BaseApplication;
 import com.ambergleam.android.paperplane.R;
 import com.ambergleam.android.paperplane.manager.DataManager;
-import com.ambergleam.android.paperplane.model.AbstractEntity;
-import com.ambergleam.android.paperplane.model.Plane;
 import com.ambergleam.android.paperplane.util.DistanceUtils;
 import com.ambergleam.android.paperplane.util.TimeUtils;
 import com.ambergleam.android.paperplane.view.GameplayView;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -67,31 +60,10 @@ public class GameplayFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_gameplay, container, false);
         ButterKnife.inject(this, layout);
 
-        setupGame();
+        mGameplayView.setupGame();
         showReadyDialog();
 
-        // TODO - replace with actual finish condition
-        mGameplayView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gameover();
-            }
-        });
-
         return layout;
-    }
-
-    private void setupGame() {
-        Plane plane = new Plane(
-                BitmapFactory.decodeResource(getResources(), R.drawable.paperplane),
-                new Point(mGameplayView.getWidthHalf(), mGameplayView.getHeightHalf()),
-                new Pair<>(0, 0),
-                false
-        );
-
-        ArrayList<AbstractEntity> entities = new ArrayList<>();
-        entities.add(plane);
-        mGameplayView.setEntities(entities);
     }
 
     private void showReadyDialog() {
@@ -189,7 +161,11 @@ public class GameplayFragment extends Fragment {
             mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
             mGameplayView.invalidate();
 
-            mDistance += 1;
+            if (!mGameplayView.updateState()) {
+                gameover();
+            }
+
+            mDistance += mGameplayView.getPlane().getVelocityX();
             mTime += FRAME_RATE_MS;
             updateUI();
 

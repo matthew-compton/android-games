@@ -2,15 +2,13 @@ package com.ambergleam.android.paperplane.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.util.Pair;
 
-public class Plane extends AbstractEntity {
+public class Plane extends Entity {
 
-    public Plane(Bitmap bitmap, Point point, Pair<Integer, Integer> velocity, boolean isAccelerating) {
+    public Plane(Bitmap bitmap, Point position, Point velocity) {
         setBitmap(bitmap);
-        setPoint(point);
+        setPosition(position);
         setVelocity(velocity);
-        setIsAccelerating(isAccelerating);
     }
 
 }

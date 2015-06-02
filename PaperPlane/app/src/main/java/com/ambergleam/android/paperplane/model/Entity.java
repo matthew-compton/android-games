@@ -2,14 +2,12 @@ package com.ambergleam.android.paperplane.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.util.Pair;
 
-public abstract class AbstractEntity {
+public abstract class Entity {
 
     private Bitmap mBitmap;
-    private Point mPoint;
-    private Pair<Integer, Integer> mVelocity;
-    private boolean mIsAccelerating;
+    private Point mPosition;
+    private Point mVelocity;
 
     public Bitmap getBitmap() {
         return mBitmap;
@@ -24,39 +22,40 @@ public abstract class AbstractEntity {
     }
 
     public int getPositionX() {
-        return mPoint.x;
+        return mPosition.x;
     }
 
     public int getPositionY() {
-        return mPoint.y;
+        return mPosition.y;
     }
 
     public int getVelocityX() {
-        return mVelocity.first;
+        return mVelocity.x;
     }
 
     public int getVelocityY() {
-        return mVelocity.second;
-    }
-
-    public boolean isAccelerating() {
-        return mIsAccelerating;
+        return mVelocity.y;
     }
 
     public void setBitmap(Bitmap bitmap) {
         mBitmap = bitmap;
     }
 
-    public void setPoint(Point point) {
-        mPoint = point;
+    public void setPosition(Point position) {
+        mPosition = position;
     }
 
-    public void setVelocity(Pair<Integer, Integer> velocity) {
+    public void setVelocity(Point velocity) {
         mVelocity = velocity;
     }
 
-    public void setIsAccelerating(boolean isAccelerating) {
-        mIsAccelerating = isAccelerating;
+    public void update() {
+        mPosition.x += getVelocityX();
+        mPosition.y += getVelocityY();
+    }
+
+    public boolean isColliding(Entity entity) {
+        return false;
     }
 
 }

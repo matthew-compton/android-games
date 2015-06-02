@@ -60,10 +60,25 @@ public class GameplayView extends View {
     public void setupGame() {
         mPlane = new Plane(
                 BitmapFactory.decodeResource(getResources(), R.drawable.paperplane),
-                new Point(0, getHeightHalf()),
+                new Point(0, 0),
                 new Point(1, 0)
         );
         mEntities = new ArrayList<>();
+        mEntities.add(new Plane(
+                BitmapFactory.decodeResource(getResources(), R.drawable.moon),
+                new Point(0, 150),
+                new Point(2, 0)
+        ));
+        mEntities.add(new Plane(
+                BitmapFactory.decodeResource(getResources(), R.drawable.moon),
+                new Point(0, 300),
+                new Point(3, 0)
+        ));
+        mEntities.add(new Plane(
+                BitmapFactory.decodeResource(getResources(), R.drawable.moon),
+                new Point(0, 450),
+                new Point(4, 0)
+        ));
     }
 
     /*
@@ -82,14 +97,6 @@ public class GameplayView extends View {
 
     public Plane getPlane() {
         return mPlane;
-    }
-
-    public int getWidthHalf() {
-        return mCanvasWidth / 2;
-    }
-
-    public int getHeightHalf() {
-        return mCanvasHeight / 2;
     }
 
 }

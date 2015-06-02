@@ -148,7 +148,7 @@ public class GameplayFragment extends Fragment {
             mPauseImageView.setVisibility(View.GONE);
             mUnpauseImageView.setVisibility(View.VISIBLE);
         } else {
-            mPauseImageView.setVisibility(View.GONE);
+            mPauseImageView.setVisibility(View.VISIBLE);
             mUnpauseImageView.setVisibility(View.GONE);
         }
     }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -49,41 +48,50 @@
 
     </FrameLayout>
 
+    <com.ambergleam.android.paperplane.view.GameplayView
+        android:id="@+id/fragment_gameplay_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.ambergleam.android.paperplane.view.GameplayView
-            android:id="@+id/fragment_gameplay_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:padding="@dimen/padding_small">
 
         <ImageView
             android:id="@+id/fragment_gameplay_restart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
+            android:layout_gravity="left"
             android:padding="@dimen/padding_small"
-            android:src="@android:drawable/ic_menu_revert"/>
+            android:src="@drawable/ic_restart"
+            android:tint="@android:color/white"
+            />
 
         <ImageView
             android:id="@+id/fragment_gameplay_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="right"
             android:padding="@dimen/padding_small"
-            android:src="@android:drawable/ic_media_pause"
-            android:visibility="gone"
-            tools:visibility="visible"/>
+            android:src="@drawable/ic_pause"
+            android:tint="@android:color/white"
+            android:visibility="visible"
+            />
 
         <ImageView
             android:id="@+id/fragment_gameplay_unpause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="right"
             android:padding="@dimen/padding_small"
-            android:src="@android:drawable/ic_media_play"
-            android:visibility="gone"/>
+            android:src="@drawable/ic_play"
+            android:tint="@android:color/white"
+            android:visibility="gone"
+            />
 
     </FrameLayout>
 

@@ -14,6 +14,8 @@ import com.ambergleam.android.paperplane.model.Plane;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class GameplayView extends View {
 
     private Paint p;
@@ -24,13 +26,44 @@ public class GameplayView extends View {
     private int mCanvasHeight;
     private boolean mIsSetup;
 
-    public GameplayView(Context context, AttributeSet aSet) {
-        super(context, aSet);
-        p = new Paint();
+    public GameplayView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setupListeners();
         reset();
     }
 
+    private void setupListeners() {
+        setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Timber.i("onClick");
+            }
+        });
+        setOnTouchListener(new OnSwipeTouchListener() {
+            public boolean onSwipeTop() {
+                Timber.i("onSwipeTop");
+                return true;
+            }
+
+            public boolean onSwipeRight() {
+                Timber.i("onSwipeRight");
+                return true;
+            }
+
+            public boolean onSwipeLeft() {
+                Timber.i("onSwipeLeft");
+                return true;
+            }
+
+            public boolean onSwipeBottom() {
+                Timber.i("onSwipeBottom");
+                return true;
+            }
+        });
+    }
+
     public void reset() {
+        p = new Paint();
         mIsSetup = false;
     }
 

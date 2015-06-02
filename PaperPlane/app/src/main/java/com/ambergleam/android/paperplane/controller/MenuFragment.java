@@ -114,11 +114,6 @@ public class MenuFragment extends Fragment {
         mCallbacks.onShowLeaderboardsRequested();
     }
 
-    @OnClick(R.id.fragment_menu_item_quit)
-    public void onClickQuit() {
-        mCallbacks.onQuitRequested();
-    }
-
     @OnClick(R.id.fragment_menu_sign_in)
     public void onClickSignIn() {
         mCallbacks.onSignInRequested();
@@ -133,7 +128,6 @@ public class MenuFragment extends Fragment {
         void onStartGameRequested();
         void onShowAchievementsRequested();
         void onShowLeaderboardsRequested();
-        void onQuitRequested();
         void onSignInRequested();
         void onSignOutRequested();
     }

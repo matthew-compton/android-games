@@ -198,11 +198,6 @@ public class MainActivity extends FragmentActivity
         updateFragment(GameplayFragment.newInstance());
     }
 
-    @Override
-    public void onQuitRequested() {
-        showQuitDialog();
-    }
-
     private void showQuitDialog() {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.fragment_menu_quit_dialog_title))

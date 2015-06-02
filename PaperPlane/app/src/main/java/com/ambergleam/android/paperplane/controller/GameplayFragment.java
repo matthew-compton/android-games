@@ -11,14 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.ambergleam.android.paperplane.BaseApplication;
 import com.ambergleam.android.paperplane.R;
-import com.ambergleam.android.paperplane.manager.DataManager;
+import com.ambergleam.android.paperplane.model.GameState;
 import com.ambergleam.android.paperplane.util.DistanceUtils;
 import com.ambergleam.android.paperplane.util.TimeUtils;
 import com.ambergleam.android.paperplane.view.GameplayView;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,16 +29,9 @@ public class GameplayFragment extends Fragment {
     @InjectView(R.id.fragment_gameplay_time) TextView mTimeTextView;
     @InjectView(R.id.fragment_gameplay_distance) TextView mDistanceTextView;
 
-    @Inject DataManager mDataManager;
-
     private Callbacks mCallbacks;
     private Handler mFrameUpdateHandler;
     private GameState mGameState;
-
-    public enum GameState {
-        PAUSED,
-        RUNNING
-    }
 
     private int mDistance;
     private int mTime;
@@ -53,10 +43,6 @@ public class GameplayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BaseApplication.get(getActivity()).inject(this);
-
-        mFrameUpdateHandler = new Handler();
-        mGameState = null;
         reset();
     }
 
@@ -152,6 +138,8 @@ public class GameplayFragment extends Fragment {
     }
 
     private void reset() {
+        mFrameUpdateHandler = new Handler();
+        mGameState = null;
         mTime = 0;
         mDistance = 0;
     }

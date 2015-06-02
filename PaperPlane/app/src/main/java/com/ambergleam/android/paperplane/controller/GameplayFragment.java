@@ -180,13 +180,15 @@ public class GameplayFragment extends Fragment {
             mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
             mGameplayView.invalidate();
 
-            if (!mGameplayView.updateState()) {
-                gameover();
-            }
-
-            mDistance += Math.abs(mGameplayView.getPlane().getVelocityX());
+            boolean gameover = !mGameplayView.updateState();
+            mDistance += Math.abs(mGameplayView.getPlane().getVelocity());
             mTime += FRAME_RATE_MS;
             updateUI();
+
+            if (gameover) {
+                gameover();
+                return;
+            }
 
             mFrameUpdateHandler.postDelayed(mFrameUpdateRunnable, FRAME_RATE_MS);
         }

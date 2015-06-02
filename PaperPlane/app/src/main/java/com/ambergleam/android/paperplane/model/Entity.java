@@ -2,6 +2,7 @@ package com.ambergleam.android.paperplane.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.Rect;
 
 public abstract class Entity {
 
@@ -37,6 +38,10 @@ public abstract class Entity {
         return mVelocity.y;
     }
 
+    public int getVelocity() {
+        return (int) Math.sqrt((mVelocity.x * mVelocity.x) + (mVelocity.y * mVelocity.y));
+    }
+
     public void setBitmap(Bitmap bitmap) {
         mBitmap = bitmap;
     }
@@ -55,6 +60,15 @@ public abstract class Entity {
     }
 
     public boolean isColliding(Entity entity) {
+        Rect rect1 = new Rect();
+        rect1.set(this.getPositionX(), this.getPositionY(), this.getPositionX() + this.getWidth(), this.getPositionY() + this.getHeight());
+
+        Rect rect2 = new Rect();
+        rect2.set(entity.getPositionX(), entity.getPositionY(), entity.getPositionX() + entity.getWidth(), entity.getPositionY() + entity.getHeight());
+
+        if (Rect.intersects(rect1, rect2)) {
+            return true;
+        }
         return false;
     }
 

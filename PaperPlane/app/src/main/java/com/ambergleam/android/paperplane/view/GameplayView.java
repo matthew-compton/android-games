@@ -42,21 +42,25 @@ public class GameplayView extends View {
         setOnTouchListener(new OnSwipeTouchListener() {
             public boolean onSwipeTop() {
                 Timber.i("onSwipeTop");
+                mPlane.updateVelocity(0, -Plane.SWIPE_VELOCITY_DELTA);
                 return true;
             }
 
             public boolean onSwipeRight() {
                 Timber.i("onSwipeRight");
+                mPlane.updateVelocity(Plane.SWIPE_VELOCITY_DELTA, 0);
                 return true;
             }
 
             public boolean onSwipeLeft() {
                 Timber.i("onSwipeLeft");
+                mPlane.updateVelocity(-Plane.SWIPE_VELOCITY_DELTA, 0);
                 return true;
             }
 
             public boolean onSwipeBottom() {
                 Timber.i("onSwipeBottom");
+                mPlane.updateVelocity(0, Plane.SWIPE_VELOCITY_DELTA);
                 return true;
             }
         });

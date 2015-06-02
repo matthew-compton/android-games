@@ -184,7 +184,7 @@ public class GameplayFragment extends Fragment {
                 gameover();
             }
 
-            mDistance += mGameplayView.getPlane().getVelocityX();
+            mDistance += Math.abs(mGameplayView.getPlane().getVelocityX());
             mTime += FRAME_RATE_MS;
             updateUI();
 

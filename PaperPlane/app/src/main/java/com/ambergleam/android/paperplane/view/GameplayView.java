@@ -1,16 +1,14 @@
 package com.ambergleam.android.paperplane.view;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.ambergleam.android.paperplane.R;
 import com.ambergleam.android.paperplane.model.Entity;
+import com.ambergleam.android.paperplane.model.Moon;
 import com.ambergleam.android.paperplane.model.Plane;
 
 import java.util.ArrayList;
@@ -68,27 +66,11 @@ public class GameplayView extends View {
 
     private void setupGame() {
         mIsSetup = true;
-        mPlane = new Plane(
-                BitmapFactory.decodeResource(getResources(), R.drawable.paperplane),
-                new Point(0, mCanvasHeight / 2),
-                new Point(1, 0)
-        );
+        mPlane = Plane.newInstance(getContext(), mCanvasWidth, mCanvasHeight);
         mEntities = new ArrayList<>();
-        mEntities.add(new Plane(
-                BitmapFactory.decodeResource(getResources(), R.drawable.moon),
-                new Point(mCanvasWidth / 2, 0),
-                new Point(2, 0)
-        ));
-        mEntities.add(new Plane(
-                BitmapFactory.decodeResource(getResources(), R.drawable.moon),
-                new Point(mCanvasWidth / 2, mCanvasHeight / 2),
-                new Point(4, 0)
-        ));
-        mEntities.add(new Plane(
-                BitmapFactory.decodeResource(getResources(), R.drawable.moon),
-                new Point(mCanvasWidth / 2, mCanvasHeight-100),
-                new Point(8, 0)
-        ));
+        mEntities.add(Moon.newInstance(getContext(), mCanvasWidth, mCanvasHeight));
+        mEntities.add(Moon.newInstance(getContext(), mCanvasWidth, mCanvasHeight));
+        mEntities.add(Moon.newInstance(getContext(), mCanvasWidth, mCanvasHeight));
     }
 
     /*

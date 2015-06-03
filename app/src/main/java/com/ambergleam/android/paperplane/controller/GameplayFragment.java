@@ -27,6 +27,7 @@ public class GameplayFragment extends Fragment {
     private static final int FRAME_RATE_MS = 20;
 
     @InjectView(R.id.fragment_gameplay_view) GameplayView mGameplayView;
+    @InjectView(R.id.fragment_gameplay_overlay) TextView mOverlayTextView;
     @InjectView(R.id.fragment_gameplay_time) TextView mTimeTextView;
     @InjectView(R.id.fragment_gameplay_distance) TextView mDistanceTextView;
     @InjectView(R.id.fragment_gameplay_pause) ImageView mPauseImageView;
@@ -82,6 +83,13 @@ public class GameplayFragment extends Fragment {
     @OnClick(R.id.fragment_gameplay_unpause)
     public void onClickUnpause() {
         unpause();
+    }
+
+    @OnClick(R.id.fragment_gameplay_overlay)
+    public void onClickOverlay() {
+        if (mGameState == GameState.PAUSED) {
+            unpause();
+        }
     }
 
     private void showRestartDialog() {
@@ -144,12 +152,18 @@ public class GameplayFragment extends Fragment {
         if (mGameState == GameState.RUNNING) {
             mPauseImageView.setVisibility(View.VISIBLE);
             mUnpauseImageView.setVisibility(View.GONE);
+            mOverlayTextView.setVisibility(View.GONE);
+            mOverlayTextView.setText(null);
         } else if (mGameState == GameState.PAUSED) {
             mPauseImageView.setVisibility(View.GONE);
             mUnpauseImageView.setVisibility(View.VISIBLE);
+            mOverlayTextView.setVisibility(View.VISIBLE);
+            mOverlayTextView.setText(R.string.fragment_gameplay_overlay_paused);
         } else {
             mPauseImageView.setVisibility(View.VISIBLE);
             mUnpauseImageView.setVisibility(View.GONE);
+            mOverlayTextView.setVisibility(View.GONE);
+            mOverlayTextView.setText(null);
         }
     }
 
@@ -200,12 +214,14 @@ public class GameplayFragment extends Fragment {
 
     public void pause() {
         mGameState = GameState.PAUSED;
+        mGameplayView.setAlpha(0.5f);
         mGameplayView.disableListeners();
         updateUI();
     }
 
     public void unpause() {
         mGameState = GameState.RUNNING;
+        mGameplayView.setAlpha(1.0f);
         mGameplayView.enableListeners();
         updateUI();
         mFrameUpdateHandler.post(mFrameUpdateRunnable);

@@ -26,10 +26,10 @@
     <string name="fragment_menu_distance_previous">Previous Distance:\n<xliff:g example="1,200 ft" id="distance">%1$s</xliff:g></string>
 
     <!-- Gameplay -->
-    <string name="fragment_gameplay_directions">Swipe to Accelerate</string>
+    <string name="fragment_gameplay_overlay_paused">Paused</string>
+    <string name="fragment_gameplay_directions_movement">Swipe to Accelerate, Tap to Stop</string>
     <string name="fragment_gameplay_ready">Ready?</string>
     <string name="fragment_gameplay_restart">Restart</string>
-    <string name="fragment_gameplay_paused">Paused</string>
     <string name="fragment_gameplay_gameover">Game Over</string>
     <string name="fragment_gameplay_gameover_time">Time:\n<xliff:g example="22.220 s" id="time">%1$s</xliff:g></string>
     <string name="fragment_gameplay_gameover_distance">Distance:\n<xliff:g example="1,200 ft" id="distance">%1$s</xliff:g></string>

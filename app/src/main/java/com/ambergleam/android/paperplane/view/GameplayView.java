@@ -80,6 +80,7 @@ public class GameplayView extends View {
 
     public void reset() {
         enableListeners();
+        setAlpha(1.0f);
         p = new Paint();
         mIsSetup = false;
     }

@@ -21,9 +21,9 @@
     <string name="fragment_menu_welcome_message_default">You are signed in with Google.</string>
     <string name="fragment_menu_welcome_message">Welcome, <xliff:g example="Matt" id="name">%1$s</xliff:g>!</string>
     <string name="fragment_menu_time_best">Best Time:\n<xliff:g example="22.220 s" id="time">%1$s</xliff:g></string>
-    <string name="fragment_menu_distance_best">Best Distance:\n<xliff:g example="1,200 ft" id="distance">%1$s</xliff:g></string>
+    <string name="fragment_menu_distance_best">Best Distance:\n<xliff:g example="1,200 km" id="distance">%1$s</xliff:g></string>
     <string name="fragment_menu_time_previous">Previous Time:\n<xliff:g example="22.220 s" id="time">%1$s</xliff:g></string>
-    <string name="fragment_menu_distance_previous">Previous Distance:\n<xliff:g example="1,200 ft" id="distance">%1$s</xliff:g></string>
+    <string name="fragment_menu_distance_previous">Previous Distance:\n<xliff:g example="1,200 km" id="distance">%1$s</xliff:g></string>
 
     <!-- Gameplay -->
     <string name="fragment_gameplay_overlay_paused">Paused</string>
@@ -34,7 +34,7 @@
     <string name="fragment_gameplay_gameover_time">Time:\n<xliff:g example="22.220 s" id="time">%1$s</xliff:g></string>
     <string name="fragment_gameplay_gameover_distance">Distance:\n<xliff:g example="1,200 ft" id="distance">%1$s</xliff:g></string>
     <string name="fragment_gameplay_time"><xliff:g example="22.220 s" id="time">%1$s</xliff:g></string>
-    <string name="fragment_gameplay_distance"><xliff:g example="1,200 ft" id="distance">%1$s</xliff:g></string>
+    <string name="fragment_gameplay_distance"><xliff:g example="1,200 km" id="distance">%1$s</xliff:g></string>
     <string name="fragment_gameplay_time_default">0.000 s</string>
     <string name="fragment_gameplay_distance_default">0 ft</string>
 

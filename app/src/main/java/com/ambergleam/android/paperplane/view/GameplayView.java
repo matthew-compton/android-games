@@ -43,6 +43,7 @@ public class GameplayView extends View {
             @Override
             public void onClick(View arg0) {
                 Timber.i("onClick");
+                mPlane.resetVelocity();
             }
         });
         setOnTouchListener(new OnSwipeTouchListener() {

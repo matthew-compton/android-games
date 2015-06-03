@@ -54,6 +54,10 @@ public abstract class Entity {
         mVelocity = velocity;
     }
 
+    public void resetVelocity() {
+        setVelocity(new Point(0, 0));
+    }
+
     public void update(int maxWidth, int maxHeight) {
         mPosition.x = wrap(mPosition.x + getVelocityX(), maxWidth, getBitmap().getWidth());
         mPosition.y = wrap(mPosition.y + getVelocityY(), maxHeight, getBitmap().getHeight());

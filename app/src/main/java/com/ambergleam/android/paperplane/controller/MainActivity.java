@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.TypedValue;
+import android.view.WindowManager;
 
 import com.ambergleam.android.paperplane.BaseApplication;
 import com.ambergleam.android.paperplane.R;
@@ -69,6 +70,7 @@ public class MainActivity extends FragmentActivity
         BaseApplication.get(this).inject(this);
         ButterKnife.inject(this);
         EventHelper.registerSubscriber(this);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setupGoogleApiClient();
         setupOverviewScreen();

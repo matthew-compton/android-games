@@ -14,8 +14,8 @@ public class Plane extends Entity {
     public static Plane newInstance(Context context, int canvasWidth, int canvasHeight) {
         Plane plane = new Plane();
         plane.setBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.paperplane));
-        plane.setPosition(new Point(canvasWidth / 2, canvasHeight / 2));
-        plane.setVelocity(new Point(0, 0));
+        plane.setPosition(getStartingPosition(canvasWidth, canvasHeight, plane.getBitmap().getWidth(), plane.getBitmap().getHeight()));
+        plane.setVelocity(getStartingVelocity());
         return plane;
     }
 
@@ -33,6 +33,16 @@ public class Plane extends Entity {
             vy = -MAX_VELOCITY;
         }
         setVelocity(new Point(vx, vy));
+    }
+
+    private static Point getStartingPosition(int canvasWidth, int canvasHeight, int bitmapWidth, int bitmapHeight) {
+        int x = canvasWidth / 2 - bitmapWidth / 2;
+        int y = canvasHeight / 2 - bitmapHeight / 2;
+        return new Point(x, y);
+    }
+
+    private static Point getStartingVelocity() {
+        return new Point(0, 0);
     }
 
 }

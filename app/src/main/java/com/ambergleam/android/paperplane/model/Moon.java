@@ -21,8 +21,8 @@ public class Moon extends Entity {
 
     private static Point getRandomStartingPosition() {
         return new Point(
-                RandomUtils.generateRandomValue(MAX_VELOCITY),
-                RandomUtils.generateRandomValue(MAX_VELOCITY)
+                0,
+                0
         );
     }
 

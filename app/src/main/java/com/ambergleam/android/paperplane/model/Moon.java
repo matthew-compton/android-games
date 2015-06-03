@@ -18,14 +18,22 @@ public class Moon extends Entity {
         moon.setBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.moon));
 
         Random random = new Random();
-        int positionX = random.nextInt(canvasWidth);
-        int positionY = random.nextInt(canvasHeight);
+        int positionX = random.nextInt(getRandomPositionX());
+        int positionY = random.nextInt(getRandomPositionY());
         int velocityX = getRandomVelocity();
         int velocityY = getRandomVelocity();
 
         moon.setPosition(new Point(positionX, positionY));
         moon.setVelocity(new Point(velocityX, velocityY));
         return moon;
+    }
+
+    private static int getRandomPositionX() {
+        return 0;
+    }
+
+    private static int getRandomPositionY() {
+        return 0;
     }
 
     private static int getRandomVelocity() {

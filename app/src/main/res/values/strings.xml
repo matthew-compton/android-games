@@ -26,7 +26,7 @@
     <string name="fragment_menu_distance_previous">Previous Distance:\n<xliff:g example="1,200 ft" id="distance">%1$s</xliff:g></string>
 
     <!-- Gameplay -->
-    <string name="fragment_gameplay_directions">Swipe to Move</string>
+    <string name="fragment_gameplay_directions">Swipe to Accelerate</string>
     <string name="fragment_gameplay_ready">Ready?</string>
     <string name="fragment_gameplay_restart">Restart</string>
     <string name="fragment_gameplay_paused">Paused</string>

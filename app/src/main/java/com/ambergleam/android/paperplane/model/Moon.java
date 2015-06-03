@@ -9,13 +9,13 @@ import com.ambergleam.android.paperplane.util.RandomUtils;
 
 public class Moon extends Entity {
 
-    public static final int MAX_VELOCITY = 8;
+    public static final int MAX_VELOCITY = 4;
 
     public static Moon newInstance(Context context, int canvasWidth, int canvasHeight) {
         Moon moon = new Moon();
         moon.setBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.moon));
         moon.setPosition(getRandomStartingPosition());
-        moon.setVelocity(getRandomStartingVelocity());
+        moon.setVelocity(getRandomStartingPosition());//TODO
         return moon;
     }
 

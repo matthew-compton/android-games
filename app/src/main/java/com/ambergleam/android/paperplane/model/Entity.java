@@ -55,8 +55,17 @@ public abstract class Entity {
     }
 
     public void update(int maxWidth, int maxHeight) {
-        mPosition.x = (mPosition.x + getVelocityX()) % maxWidth;
-        mPosition.y = (mPosition.y + getVelocityY()) % maxHeight;
+        mPosition.x = wrap(mPosition.x + getVelocityX(), maxWidth, getBitmap().getWidth());
+        mPosition.y = wrap(mPosition.y + getVelocityY(), maxHeight, getBitmap().getHeight());
+    }
+
+    private int wrap(int value, int maxSize, int bitmapSize) {
+        if (value < -bitmapSize) {
+            value += (maxSize + bitmapSize);
+        } else if (value >= (maxSize + bitmapSize)) {
+            value -= (maxSize + 2 * bitmapSize);
+        }
+        return value;
     }
 
     public boolean isColliding(Entity entity) {

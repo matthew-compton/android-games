@@ -28,11 +28,10 @@ public class GameplayView extends View {
 
     public GameplayView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setupListeners();
         reset();
     }
 
-    private void setupListeners() {
+    public void enableListeners() {
         setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -66,7 +65,13 @@ public class GameplayView extends View {
         });
     }
 
+    public void disableListeners() {
+        setOnClickListener(null);
+        setOnTouchListener(null);
+    }
+
     public void reset() {
+        enableListeners();
         p = new Paint();
         mIsSetup = false;
     }

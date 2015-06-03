@@ -200,11 +200,13 @@ public class GameplayFragment extends Fragment {
 
     public void pause() {
         mGameState = GameState.PAUSED;
+        mGameplayView.disableListeners();
         updateUI();
     }
 
     public void unpause() {
         mGameState = GameState.RUNNING;
+        mGameplayView.enableListeners();
         updateUI();
         mFrameUpdateHandler.post(mFrameUpdateRunnable);
     }

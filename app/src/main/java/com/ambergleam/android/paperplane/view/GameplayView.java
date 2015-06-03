@@ -1,15 +1,21 @@
 package com.ambergleam.android.paperplane.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.ambergleam.android.paperplane.R;
+import com.ambergleam.android.paperplane.model.Enemy;
 import com.ambergleam.android.paperplane.model.Entity;
 import com.ambergleam.android.paperplane.model.Moon;
 import com.ambergleam.android.paperplane.model.Plane;
+import com.ambergleam.android.paperplane.model.Planet;
+import com.ambergleam.android.paperplane.model.Sun;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +26,12 @@ public class GameplayView extends View {
 
     private Paint p;
     private Plane mPlane;
-    private List<Entity> mEntities;
+    private List<Enemy> mEnemies;
 
     private int mCanvasWidth;
     private int mCanvasHeight;
     private boolean mIsSetup;
+    private Bitmap mBackground;
 
     public GameplayView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -92,13 +99,13 @@ public class GameplayView extends View {
         p.setColor(Color.WHITE);
         p.setAlpha(255);
         p.setStrokeWidth(1);
-        canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), p);
+        canvas.drawBitmap(mBackground, 0, 0, null);
     }
 
     private void drawSprites(Canvas canvas) {
         drawSprite(canvas, mPlane);
-        for (Entity entity : mEntities) {
-            drawSprite(canvas, entity);
+        for (Enemy enemy : mEnemies) {
+            drawSprite(canvas, enemy);
         }
     }
 
@@ -108,11 +115,23 @@ public class GameplayView extends View {
 
     private void setupGame() {
         mIsSetup = true;
+
+        // Background
+        mBackground = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(getResources(), R.drawable.space),
+                mCanvasWidth,
+                mCanvasHeight,
+                true
+        );
+
+        // Player
         mPlane = Plane.newInstance(getContext(), mCanvasWidth, mCanvasHeight);
-        mEntities = new ArrayList<>();
-        mEntities.add(Moon.newInstance(getContext(), mCanvasWidth, mCanvasHeight));
-        mEntities.add(Moon.newInstance(getContext(), mCanvasWidth, mCanvasHeight));
-        mEntities.add(Moon.newInstance(getContext(), mCanvasWidth, mCanvasHeight));
+
+        // Enemies
+        mEnemies = new ArrayList<>();
+        mEnemies.add(Sun.newInstance(getContext(), mCanvasWidth, mCanvasHeight));
+        mEnemies.add(Planet.newInstance(getContext(), mCanvasWidth, mCanvasHeight));
+        mEnemies.add(Moon.newInstance(getContext(), mCanvasWidth, mCanvasHeight));
     }
 
     /*
@@ -120,7 +139,7 @@ public class GameplayView extends View {
      */
     public boolean updateState() {
         mPlane.update(mCanvasWidth, mCanvasHeight);
-        for (Entity entity : mEntities) {
+        for (Entity entity : mEnemies) {
             entity.update(mCanvasWidth, mCanvasHeight);
             if (mPlane.isColliding(entity)) {
                 return false;

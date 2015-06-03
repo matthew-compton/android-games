@@ -13,7 +13,7 @@ public class Plane extends Entity {
 
     public static Plane newInstance(Context context, int canvasWidth, int canvasHeight) {
         Plane plane = new Plane();
-        plane.setBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.paperplane));
+        plane.setBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.plane));
         plane.setPosition(getStartingPosition(canvasWidth, canvasHeight, plane.getBitmap().getWidth(), plane.getBitmap().getHeight()));
         plane.setVelocity(getStartingVelocity());
         return plane;

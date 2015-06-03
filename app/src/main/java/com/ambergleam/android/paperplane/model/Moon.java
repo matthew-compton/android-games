@@ -15,7 +15,7 @@ public class Moon extends Entity {
         Moon moon = new Moon();
         moon.setBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.moon));
         moon.setPosition(getRandomStartingPosition());
-        moon.setVelocity(getRandomStartingPosition());//TODO
+        moon.setVelocity(getRandomStartingVelocity());
         return moon;
     }
 

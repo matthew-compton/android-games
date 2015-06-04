@@ -210,10 +210,6 @@ public class MainActivity extends FragmentActivity
         updateFragment(GameplayFragment.newInstance());
     }
 
-    private void showQuitDialog() {
-        QuitDialogFragment.newInstance().show(getSupportFragmentManager(), TAG_QUIT);
-    }
-
     @Override
     public void onShowAchievementsRequested() {
         if (isSignedIn()) {
@@ -292,12 +288,23 @@ public class MainActivity extends FragmentActivity
             menuFragment.setWelcomeMessage(getPlayerName());
             menuFragment.updateUI();
         } else if (fragment instanceof GameplayFragment) {
+            // Do nothing
+        } else {
+            Timber.e("Error with updating current Fragment.");
+        }
+    }
+
+    private void back() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_container);
+        if (fragment instanceof GameplayFragment) {
             GameplayFragment gameplayFragment = (GameplayFragment) fragment;
             if (gameplayFragment.getGameState() == GameState.RUNNING) {
                 gameplayFragment.pause();
+            } else {
+                super.onBackPressed();
             }
         } else {
-            Timber.e("Error with updating current Fragment.");
+            super.onBackPressed();
         }
     }
 
@@ -364,8 +371,7 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onBackPressed() {
-        updateUI();
-        showQuitDialog();
+        back();
     }
 
 }

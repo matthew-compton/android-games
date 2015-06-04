@@ -15,7 +15,6 @@
     <string name="fragment_menu_item_achievements">Achievements</string>
     <string name="fragment_menu_item_leaderboards">Leaderboards</string>
     <string name="fragment_menu_quit_dialog_title">Quit?</string>
-    <string name="fragment_menu_quit_dialog_message">Are you sure you want to quit?</string>
     <string name="fragment_menu_sign_in_text">Sign in with Google to share your scores and achievements with friends.</string>
     <string name="fragment_menu_sign_out"><u>Sign Out</u></string>
     <string name="fragment_menu_sign_out_dialog_title">Sign Out?</string>

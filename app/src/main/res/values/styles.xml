@@ -11,7 +11,6 @@
         <!-- Customize your theme here. -->
         <item name="android:buttonStyle">@style/ButtonStyle</item>
         <item name="android:textViewStyle">@style/TextViewStyle</item>
-
     </style>
 
     <!-- Buttons -->

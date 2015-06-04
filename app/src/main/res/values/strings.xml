@@ -2,6 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- General -->
+    <string name="app_name">Paper Plane in Space</string>
     <string name="app_title">Paper Plane</string>
     <string name="app_subtitle">in Space</string>
 

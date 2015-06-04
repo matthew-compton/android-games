@@ -7,13 +7,19 @@
     <color name="accent">#536DFE</color>
 
     <!-- Text -->
-    <color name="text_primary">#FAFAFA</color>
-    <color name="text_secondary">#CCCCCC</color>
-    <color name="text_dark">#222222</color>
+    <color name="text">#FAFAFA</color>
+
+    <!-- Button -->
+    <color name="button_enabled">@color/primary</color>
+    <color name="button_enabled_border">@color/primary_dark</color>
+    <color name="button_focused">#122C88</color>
+    <color name="button_focused_border">@color/primary_dark</color>
+    <color name="button_pressed">#122C88</color>
+    <color name="button_pressed_border">@color/primary_dark</color>
+    <color name="button_disabled">#888888</color>
+    <color name="button_disabled_border">@color/primary_dark</color>
 
     <!-- Miscellaneous -->
-    <color name="background">#FFEEEEEE</color>
-    <color name="icons">#FFFFFF</color>
     <color name="divider">#000000</color>
 
 </resources>

@@ -17,6 +17,11 @@
     <!-- Buttons -->
     <style name="ButtonStyle" parent="android:Widget.Button">
         <item name="fontPath">fonts/VT323-Regular.ttf</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:paddingTop">@dimen/padding_small</item>
+        <item name="android:paddingBottom">@dimen/padding_small</item>
     </style>
 
     <!-- TextViews -->

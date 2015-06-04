@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.TypedValue;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.ambergleam.android.paperplane.BaseApplication;
 import com.ambergleam.android.paperplane.R;
@@ -28,7 +29,6 @@ import com.ambergleam.android.paperplane.event.LoadLeaderboardTimeFailureEvent;
 import com.ambergleam.android.paperplane.event.LoadLeaderboardTimeSuccessEvent;
 import com.ambergleam.android.paperplane.manager.DataManager;
 import com.ambergleam.android.paperplane.model.GameState;
-import com.ambergleam.android.paperplane.util.DialogUtils;
 import com.ambergleam.android.paperplane.util.GameUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -63,6 +63,7 @@ public class MainActivity extends FragmentActivity
     private boolean mSignInClicked;
     private boolean mAutoStartSignInFlow;
 
+    private Toast mToast;
     private int mCurrentLoadCount = 0;
 
     @Override
@@ -215,7 +216,7 @@ public class MainActivity extends FragmentActivity
         if (isSignedIn()) {
             startActivityForResult(Games.Achievements.getAchievementsIntent(mGoogleApiClient), REQUEST_CODE_UNUSED);
         } else {
-            DialogUtils.showAlertDialog(this, getString(R.string.auth_achievements_unavailable));
+            showToast(R.string.auth_achievements_unavailable);
         }
     }
 
@@ -224,7 +225,7 @@ public class MainActivity extends FragmentActivity
         if (isSignedIn()) {
             startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(mGoogleApiClient), REQUEST_CODE_UNUSED);
         } else {
-            DialogUtils.showAlertDialog(this, getString(R.string.auth_leaderboards_unavailable));
+            showToast(R.string.auth_leaderboards_unavailable);
         }
     }
 
@@ -257,6 +258,14 @@ public class MainActivity extends FragmentActivity
                     }
                 })
                 .show();
+    }
+
+    private void showToast(int stringResId) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(this, getString(stringResId), Toast.LENGTH_SHORT);
+        mToast.show();
     }
 
     private void signout() {

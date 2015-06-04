@@ -2,7 +2,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- General -->
-    <string name="app_name">Paper Plane</string>
+    <string name="app_title">Paper Plane</string>
+    <string name="app_subtitle">in Space</string>
 
     <!-- Authentication -->
     <string name="auth_achievements_unavailable">Please sign in to view Achievements.</string>

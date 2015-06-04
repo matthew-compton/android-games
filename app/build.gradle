@@ -31,6 +31,7 @@ dependencies {
 
     compile 'com.jakewharton.timber:timber:2.7.1'
     compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'net.orfjackal.retrolambda:retrolambda:1.6.1'
 
     compile 'de.greenrobot:eventbus:2.4.0'

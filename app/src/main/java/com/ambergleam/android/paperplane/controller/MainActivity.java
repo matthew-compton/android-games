@@ -2,6 +2,7 @@ package com.ambergleam.android.paperplane.controller;
 
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -39,6 +40,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import timber.log.Timber;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends FragmentActivity
         implements
@@ -76,6 +78,11 @@ public class MainActivity extends FragmentActivity
         setupOverviewScreen();
         setupState();
         updateFragment(MenuFragment.newInstance(isSignedIn(), getPlayerName()));
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override

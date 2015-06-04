@@ -75,7 +75,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/black"
+                android:background="@color/divider"
                 />
 
             <LinearLayout
@@ -170,6 +170,13 @@
                         tools:text="@string/fragment_menu_distance_best"
                         />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="@dimen/padding_small"
+                        android:background="@color/divider"
+                        />
+
                     <TextView
                         android:id="@+id/fragment_menu_time_previous"
                         android:layout_width="wrap_content"
@@ -201,7 +208,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/black"
+                android:background="@color/divider"
                 />
 
         </LinearLayout>

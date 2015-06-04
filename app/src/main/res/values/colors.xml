@@ -14,6 +14,6 @@
     <!-- Miscellaneous -->
     <color name="background">#FFEEEEEE</color>
     <color name="icons">#FFFFFF</color>
-    <color name="dividers">#B6B6B6</color>
+    <color name="divider">#000000</color>
 
 </resources>

@@ -1,8 +1,6 @@
 package com.ambergleam.android.paperplane.controller;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -30,8 +28,9 @@ public class GameplayFragment extends Fragment {
     @InjectView(R.id.fragment_gameplay_overlay) TextView mOverlayTextView;
     @InjectView(R.id.fragment_gameplay_time) TextView mTimeTextView;
     @InjectView(R.id.fragment_gameplay_distance) TextView mDistanceTextView;
+    @InjectView(R.id.fragment_gameplay_restart) ImageView mRestartImageView;
     @InjectView(R.id.fragment_gameplay_pause) ImageView mPauseImageView;
-    @InjectView(R.id.fragment_gameplay_unpause) ImageView mUnpauseImageView;
+    @InjectView(R.id.fragment_gameplay_play) ImageView mPlayImageView;
 
     private Callbacks mCallbacks;
     private Handler mFrameUpdateHandler;
@@ -48,7 +47,8 @@ public class GameplayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_gameplay, container, false);
         ButterKnife.inject(this, layout);
-        start();
+        reset();
+        toReadyState();
         return layout;
     }
 
@@ -70,182 +70,158 @@ public class GameplayFragment extends Fragment {
         mCallbacks = null;
     }
 
+    public GameState getGameState() {
+        return mGameState;
+    }
+
+    synchronized private void updateUI() {
+        mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
+        mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, DistanceUtils.formatDistance(mDistance)));
+        if (mGameState == GameState.RUNNING) {
+            mRestartImageView.setVisibility(View.GONE);
+            mPauseImageView.setVisibility(View.VISIBLE);
+            mPlayImageView.setVisibility(View.GONE);
+            mOverlayTextView.setVisibility(View.GONE);
+            mOverlayTextView.setText(null);
+            mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
+            mGameplayView.invalidate();
+            mGameplayView.enableListeners();
+            mGameplayView.setAlpha(1.0f);
+            mFrameUpdateHandler.postDelayed(mFrameUpdateRunnable, FRAME_RATE_MS);
+        } else if (mGameState == GameState.READY) {
+            mRestartImageView.setVisibility(View.GONE);
+            mPauseImageView.setVisibility(View.GONE);
+            mPlayImageView.setVisibility(View.VISIBLE);
+            mOverlayTextView.setVisibility(View.VISIBLE);
+            mOverlayTextView.setText(R.string.fragment_gameplay_overlay_ready);
+            mGameplayView.setAlpha(1.0f);
+            mGameplayView.disableListeners();
+        } else if (mGameState == GameState.PAUSED) {
+            mRestartImageView.setVisibility(View.GONE);
+            mPauseImageView.setVisibility(View.GONE);
+            mPlayImageView.setVisibility(View.VISIBLE);
+            mOverlayTextView.setVisibility(View.VISIBLE);
+            mOverlayTextView.setText(R.string.fragment_gameplay_overlay_paused);
+            mGameplayView.setAlpha(0.5f);
+            mGameplayView.disableListeners();
+        } else if (mGameState == GameState.GAMEOVER) {
+            mRestartImageView.setVisibility(View.VISIBLE);
+            mPauseImageView.setVisibility(View.GONE);
+            mPlayImageView.setVisibility(View.GONE);
+            mOverlayTextView.setVisibility(View.VISIBLE);
+            mOverlayTextView.setText(R.string.fragment_gameplay_overlay_gameover);
+            mGameplayView.setAlpha(0.5f);
+            mGameplayView.disableListeners();
+        } else {
+            throw new IllegalStateException();
+        }
+    }
+
+    synchronized public void reset() {
+        mGameplayView.reset();
+        mGameplayView.invalidate();
+        mFrameUpdateHandler = new Handler();
+        mTime = 0;
+        mDistance = 0;
+    }
+
+    synchronized public void toReadyState() {
+        mGameState = GameState.READY;
+        updateUI();
+    }
+
+    synchronized public void toPauseState() {
+        mGameState = GameState.PAUSED;
+        updateUI();
+    }
+
+    synchronized public void toGameoverState() {
+        mGameState = GameState.GAMEOVER;
+        updateUI();
+    }
+
+    synchronized public void toRunningState() {
+        mGameState = GameState.RUNNING;
+        updateUI();
+    }
+
     @OnClick(R.id.fragment_gameplay_restart)
     public void onClickRestart() {
-        restart();
+        switch (mGameState) {
+            case GAMEOVER:
+                reset();
+                toReadyState();
+                break;
+            case READY:
+            case PAUSED:
+            case RUNNING:
+            default:
+                throw new IllegalStateException();
+        }
+    }
+
+    @OnClick(R.id.fragment_gameplay_play)
+    public void onClickPlay() {
+        switch (mGameState) {
+            case READY:
+            case PAUSED:
+                toRunningState();
+                break;
+            case RUNNING:
+            case GAMEOVER:
+            default:
+                throw new IllegalStateException();
+        }
     }
 
     @OnClick(R.id.fragment_gameplay_pause)
     public void onClickPause() {
-        pause();
-    }
-
-    @OnClick(R.id.fragment_gameplay_unpause)
-    public void onClickUnpause() {
-        unpause();
+        switch (mGameState) {
+            case RUNNING:
+                toPauseState();
+                break;
+            case READY:
+            case PAUSED:
+            case GAMEOVER:
+            default:
+                throw new IllegalStateException();
+        }
     }
 
     @OnClick(R.id.fragment_gameplay_overlay)
     public void onClickOverlay() {
-        if (mGameState == GameState.PAUSED) {
-            unpause();
+        switch (mGameState) {
+            case READY:
+            case PAUSED:
+                toRunningState();
+                break;
+            case GAMEOVER:
+                mCallbacks.onGameover(mTime, mDistance);
+                break;
+            case RUNNING:
+            default:
+                throw new IllegalStateException();
         }
-    }
-
-    private void showRestartDialog() {
-        pause();
-        new AlertDialog.Builder(getActivity())
-                .setTitle(getString(R.string.fragment_gameplay_restart))
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        start();
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
-    }
-
-    private void showReadyDialog() {
-        new AlertDialog.Builder(getActivity())
-                .setTitle(getString(R.string.fragment_gameplay_ready))
-                .setNeutralButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        new Handler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                init();
-                            }
-                        });
-                    }
-                })
-                .setCancelable(false)
-                .show();
-    }
-
-    private void showGameoverDialog() {
-        new AlertDialog.Builder(getActivity())
-                .setTitle(getString(R.string.fragment_gameplay_gameover))
-                .setMessage(getResultsString())
-                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        mCallbacks.onGameover(mTime, mDistance);
-                    }
-                })
-                .setCancelable(false)
-                .show();
-    }
-
-    private void updateUI() {
-        mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
-        mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, DistanceUtils.formatDistance(mDistance)));
-        if (mGameState == GameState.RUNNING) {
-            mPauseImageView.setVisibility(View.VISIBLE);
-            mUnpauseImageView.setVisibility(View.GONE);
-            mOverlayTextView.setVisibility(View.GONE);
-            mOverlayTextView.setText(null);
-        } else if (mGameState == GameState.PAUSED) {
-            mPauseImageView.setVisibility(View.GONE);
-            mUnpauseImageView.setVisibility(View.VISIBLE);
-            mOverlayTextView.setVisibility(View.VISIBLE);
-            mOverlayTextView.setText(R.string.fragment_gameplay_overlay_paused);
-        } else {
-            mPauseImageView.setVisibility(View.VISIBLE);
-            mUnpauseImageView.setVisibility(View.GONE);
-            mOverlayTextView.setVisibility(View.GONE);
-            mOverlayTextView.setText(null);
-        }
-    }
-
-    private void reset() {
-        mGameplayView.reset();
-        mFrameUpdateHandler = new Handler();
-        mGameState = null;
-        mTime = 0;
-        mDistance = 0;
-        updateUI();
-    }
-
-    synchronized private void init() {
-        mGameState = GameState.RUNNING;
-        mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
-        mGameplayView.invalidate();
-        updateUI();
-        mFrameUpdateHandler.postDelayed(mFrameUpdateRunnable, FRAME_RATE_MS);
     }
 
     private Runnable mFrameUpdateRunnable = new Runnable() {
         @Override
         synchronized public void run() {
-            if (mGameState == GameState.PAUSED) {
+            if (mGameState != GameState.RUNNING) {
                 return;
             }
-
-            mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
-            mGameplayView.invalidate();
 
             boolean gameover = !mGameplayView.updateState();
             mDistance += Math.abs(mGameplayView.getPlane().getVelocity());
             mTime += FRAME_RATE_MS;
-            updateUI();
 
             if (gameover) {
-                gameover();
-                return;
+                toGameoverState();
+            } else {
+                updateUI();
             }
-
-            mFrameUpdateHandler.postDelayed(mFrameUpdateRunnable, FRAME_RATE_MS);
         }
     };
-
-    public GameState getGameState() {
-        return mGameState;
-    }
-
-    public void pause() {
-        mGameState = GameState.PAUSED;
-        mGameplayView.setAlpha(0.5f);
-        mGameplayView.disableListeners();
-        updateUI();
-    }
-
-    public void unpause() {
-        mGameState = GameState.RUNNING;
-        mGameplayView.setAlpha(1.0f);
-        mGameplayView.enableListeners();
-        updateUI();
-        mFrameUpdateHandler.post(mFrameUpdateRunnable);
-    }
-
-    private void gameover() {
-        mGameState = null;
-        showGameoverDialog();
-    }
-
-    private void start() {
-        reset();
-        showReadyDialog();
-    }
-
-    private void restart() {
-        showRestartDialog();
-    }
-
-    private String getResultsString() {
-        String time = getString(R.string.fragment_gameplay_gameover_time, TimeUtils.formatTime(mTime));
-        String distance = getString(R.string.fragment_gameplay_gameover_distance, DistanceUtils.formatDistance(mDistance));
-        return time + "\n\n" + distance;
-    }
 
     public interface Callbacks {
         void onGameover(int time, int distance);

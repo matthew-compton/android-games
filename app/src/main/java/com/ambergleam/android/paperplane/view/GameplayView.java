@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -24,7 +22,6 @@ import timber.log.Timber;
 
 public class GameplayView extends View {
 
-    private Paint p;
     private Plane mPlane;
     private List<Enemy> mEnemies;
 
@@ -79,9 +76,6 @@ public class GameplayView extends View {
     }
 
     public void reset() {
-        enableListeners();
-        setAlpha(1.0f);
-        p = new Paint();
         mIsSetup = false;
     }
 
@@ -91,6 +85,7 @@ public class GameplayView extends View {
         mCanvasHeight = canvas.getHeight();
         if (!mIsSetup && mCanvasWidth > 0 && mCanvasHeight > 0) {
             setupGame();
+            clearScreen(canvas);
         } else if (mIsSetup) {
             clearScreen(canvas);
             drawSprites(canvas);
@@ -98,9 +93,6 @@ public class GameplayView extends View {
     }
 
     private void clearScreen(Canvas canvas) {
-        p.setColor(Color.WHITE);
-        p.setAlpha(255);
-        p.setStrokeWidth(1);
         canvas.drawBitmap(mBackground, 0, 0, null);
     }
 

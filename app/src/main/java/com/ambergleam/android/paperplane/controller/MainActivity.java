@@ -52,8 +52,6 @@ public class MainActivity extends FragmentActivity
     private static final int REQUEST_CODE_SIGNIN = 0;
     private static final int REQUEST_CODE_UNUSED = 1;
 
-    private static final String TAG_QUIT = "MainActivity.QuitDialogFragment";
-
     private static final int LOAD_COUNT_TOTAL = 2;
 
     @Inject DataManager mDataManager;
@@ -208,6 +206,7 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onStartGameRequested() {
+        hideToast();
         updateFragment(GameplayFragment.newInstance());
     }
 
@@ -261,11 +260,15 @@ public class MainActivity extends FragmentActivity
     }
 
     private void showToast(int stringResId) {
+        hideToast();
+        mToast = Toast.makeText(this, getString(stringResId), Toast.LENGTH_SHORT);
+        mToast.show();
+    }
+
+    private void hideToast() {
         if (mToast != null) {
             mToast.cancel();
         }
-        mToast = Toast.makeText(this, getString(stringResId), Toast.LENGTH_SHORT);
-        mToast.show();
     }
 
     private void signout() {
@@ -308,9 +311,9 @@ public class MainActivity extends FragmentActivity
         if (fragment instanceof GameplayFragment) {
             GameplayFragment gameplayFragment = (GameplayFragment) fragment;
             if (gameplayFragment.getGameState() == GameState.RUNNING) {
-                gameplayFragment.pause();
+                gameplayFragment.toPauseState();
             } else {
-                super.onBackPressed();
+                updateFragment(MenuFragment.newInstance(isSignedIn(), getPlayerName()));
             }
         } else {
             super.onBackPressed();

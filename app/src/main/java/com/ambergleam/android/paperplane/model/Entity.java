@@ -79,10 +79,7 @@ public abstract class Entity {
         Rect rect2 = new Rect();
         rect2.set(entity.getPositionX(), entity.getPositionY(), entity.getPositionX() + entity.getWidth(), entity.getPositionY() + entity.getHeight());
 
-        if (Rect.intersects(rect1, rect2)) {
-            return true;
-        }
-        return false;
+        return Rect.intersects(rect1, rect2);
     }
 
 }

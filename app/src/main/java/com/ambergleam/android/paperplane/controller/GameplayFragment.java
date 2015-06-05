@@ -204,7 +204,7 @@ public class GameplayFragment extends Fragment {
         }
     }
 
-    private Runnable mFrameUpdateRunnable = new Runnable() {
+    private final Runnable mFrameUpdateRunnable = new Runnable() {
         @Override
         synchronized public void run() {
             if (mGameState != GameState.RUNNING) {

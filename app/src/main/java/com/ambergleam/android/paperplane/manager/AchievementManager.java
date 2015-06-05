@@ -14,14 +14,14 @@ import timber.log.Timber;
 @Singleton
 public class AchievementManager implements DataInterface {
 
-    public boolean mTimeAchievement_10_Unlocked;
-    public boolean mTimeAchievement_100_Unlocked;
-    public boolean mTimeAchievement_1000_Unlocked;
-    public boolean mTimeAchievement_10000_Unlocked;
-    public boolean mDistanceAchievement_10_Unlocked;
-    public boolean mDistanceAchievement_100_Unlocked;
-    public boolean mDistanceAchievement_1000_Unlocked;
-    public boolean mDistanceAchievement_10000_Unlocked;
+    private boolean mTimeAchievement_10_Unlocked;
+    private boolean mTimeAchievement_100_Unlocked;
+    private boolean mTimeAchievement_1000_Unlocked;
+    private boolean mTimeAchievement_10000_Unlocked;
+    private boolean mDistanceAchievement_10_Unlocked;
+    private boolean mDistanceAchievement_100_Unlocked;
+    private boolean mDistanceAchievement_1000_Unlocked;
+    private boolean mDistanceAchievement_10000_Unlocked;
 
     @Inject
     public AchievementManager() {

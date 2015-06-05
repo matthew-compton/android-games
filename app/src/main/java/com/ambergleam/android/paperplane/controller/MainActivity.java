@@ -167,7 +167,7 @@ public class MainActivity extends FragmentActivity
         } else if (fragment instanceof GameplayFragment) {
             ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
         } else {
-            // Nothing
+            Timber.i("No fragment currently displayed.");
         }
     }
 
@@ -196,10 +196,7 @@ public class MainActivity extends FragmentActivity
         if (mSignInClicked || mAutoStartSignInFlow) {
             mAutoStartSignInFlow = false;
             mSignInClicked = false;
-            mResolvingConnectionFailure = true;
-            if (!GameUtils.resolveConnectionFailure(this, mGoogleApiClient, connectionResult, REQUEST_CODE_SIGNIN, getString(R.string.error_auth))) {
-                mResolvingConnectionFailure = false;
-            }
+            mResolvingConnectionFailure = GameUtils.resolveConnectionFailure(this, mGoogleApiClient, connectionResult, REQUEST_CODE_SIGNIN, getString(R.string.error_auth));
         }
         updateUI();
     }
@@ -302,7 +299,7 @@ public class MainActivity extends FragmentActivity
         } else if (fragment instanceof GameplayFragment) {
             // Do nothing
         } else {
-            Timber.e("Error with updating current Fragment.");
+            throw new IllegalStateException();
         }
     }
 

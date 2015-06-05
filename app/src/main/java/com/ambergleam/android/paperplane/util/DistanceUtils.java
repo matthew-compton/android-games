@@ -9,8 +9,7 @@ public class DistanceUtils {
     public static String formatDistance(int distance_m) {
         double distance_km = distance_m / 1000.0;
         DecimalFormat formatter = new DecimalFormat(DECIMAL_FORMAT_DISTANCE);
-        String formattedDistance = formatter.format(distance_km).concat(" km");
-        return formattedDistance;
+        return formatter.format(distance_km).concat(" km");
     }
 
 }

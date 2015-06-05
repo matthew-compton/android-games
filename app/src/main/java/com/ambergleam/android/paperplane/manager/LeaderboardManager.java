@@ -59,6 +59,7 @@ public class LeaderboardManager implements DataInterface {
                     public void onResult(Leaderboards.LoadPlayerScoreResult result) {
                         if (result == null) {
                             EventHelper.postEvent(new LoadLeaderboardTimeFailureEvent());
+                            return;
                         }
                         LeaderboardScore score = result.getScore();
                         int time = (int) score.getRawScore();
@@ -77,6 +78,7 @@ public class LeaderboardManager implements DataInterface {
                     public void onResult(Leaderboards.LoadPlayerScoreResult result) {
                         if (result == null) {
                             EventHelper.postEvent(new LoadLeaderboardDistanceFailureEvent());
+                            return;
                         }
                         LeaderboardScore score = result.getScore();
                         int distance = (int) score.getRawScore();

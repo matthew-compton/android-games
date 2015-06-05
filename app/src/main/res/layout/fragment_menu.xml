@@ -1,284 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/space"
+    android:orientation="vertical"
     tools:context=".controller.MenuFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="?attr/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:src="@drawable/airflow"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/plane"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_title"
+                android:textColor="@color/text"
+                android:textSize="@dimen/text_large"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_subtitle"
+                android:textColor="@color/text"
+                android:textSize="@dimen/text_medium"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
         android:orientation="vertical">
 
-        <FrameLayout
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="?attr/colorPrimary">
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/padding_medium"
-                android:paddingRight="@dimen/padding_medium">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:src="@drawable/airflow"/>
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/plane"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <Button
+                    android:id="@+id/fragment_menu_item_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_title"
-                    android:textColor="@color/text"
+                    android:layout_marginBottom="@dimen/padding_small"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/fragment_menu_item_start"
+                    android:textColor="@color/text_color_light"
                     android:textSize="@dimen/text_large"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    />
 
-                <TextView
+                <Button
+                    android:id="@+id/fragment_menu_item_achievements"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_subtitle"
-                    android:textColor="@color/text"
-                    android:textSize="@dimen/text_medium"
-                    android:textStyle="bold"/>
+                    android:layout_marginBottom="@dimen/padding_small"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/fragment_menu_item_achievements"
+                    android:textColor="@color/text_color_light"
+                    android:textSize="@dimen/text_large"
+                    android:textStyle="bold"
+                    />
+
+                <Button
+                    android:id="@+id/fragment_menu_item_leaderboards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/fragment_menu_item_leaderboards"
+                    android:textColor="@color/text_color_light"
+                    android:textSize="@dimen/text_large"
+                    android:textStyle="bold"
+                    />
 
             </LinearLayout>
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/divider"
-                />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/padding_large"
+                android:layout_marginRight="@dimen/padding_large"
+                android:background="@drawable/background_scoreboard"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingRight="@dimen/padding_large">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/fragment_menu_item_start"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_small"
-                        android:clickable="true"
-                        android:gravity="center_vertical"
-                        android:text="@string/fragment_menu_item_start"
-                        android:textColor="@color/text_color_light"
-                        android:textSize="@dimen/text_large"
-                        android:textStyle="bold"
-                        />
-
-                    <Button
-                        android:id="@+id/fragment_menu_item_achievements"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_small"
-                        android:clickable="true"
-                        android:gravity="center_vertical"
-                        android:text="@string/fragment_menu_item_achievements"
-                        android:textColor="@color/text_color_light"
-                        android:textSize="@dimen/text_large"
-                        android:textStyle="bold"
-                        />
-
-                    <Button
-                        android:id="@+id/fragment_menu_item_leaderboards"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:gravity="center_vertical"
-                        android:text="@string/fragment_menu_item_leaderboards"
-                        android:textColor="@color/text_color_light"
-                        android:textSize="@dimen/text_large"
-                        android:textStyle="bold"
-                        />
-
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/fragment_menu_time_best"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/padding_large"
-                    android:layout_marginRight="@dimen/padding_large"
-                    android:background="@drawable/background_scoreboard"
+                    android:layout_marginBottom="@dimen/padding_small"
+                    android:layout_marginTop="@dimen/padding_small"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:paddingRight="@dimen/padding_large">
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/text_medium"
+                    android:textStyle="bold"
+                    tools:text="@string/fragment_menu_time_best"
+                    />
 
-                    <TextView
-                        android:id="@+id/fragment_menu_time_best"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_small"
-                        android:layout_marginTop="@dimen/padding_small"
-                        android:gravity="center"
-                        android:textColor="@color/text"
-                        android:textSize="@dimen/text_medium"
-                        android:textStyle="bold"
-                        tools:text="@string/fragment_menu_time_best"
-                        />
+                <TextView
+                    android:id="@+id/fragment_menu_distance_best"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/padding_small"
+                    android:gravity="center"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/text_medium"
+                    android:textStyle="bold"
+                    tools:text="@string/fragment_menu_distance_best"
+                    />
 
-                    <TextView
-                        android:id="@+id/fragment_menu_distance_best"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_small"
-                        android:gravity="center"
-                        android:textColor="@color/text"
-                        android:textSize="@dimen/text_medium"
-                        android:textStyle="bold"
-                        tools:text="@string/fragment_menu_distance_best"
-                        />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="@dimen/padding_small"
+                    android:background="@color/divider"
+                    />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="@dimen/padding_small"
-                        android:background="@color/divider"
-                        />
+                <TextView
+                    android:id="@+id/fragment_menu_time_previous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/padding_small"
+                    android:gravity="center"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/text_medium"
+                    android:textStyle="bold"
+                    tools:text="@string/fragment_menu_time_previous"
+                    />
 
-                    <TextView
-                        android:id="@+id/fragment_menu_time_previous"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_small"
-                        android:gravity="center"
-                        android:textColor="@color/text"
-                        android:textSize="@dimen/text_medium"
-                        android:textStyle="bold"
-                        tools:text="@string/fragment_menu_time_previous"
-                        />
-
-                    <TextView
-                        android:id="@+id/fragment_menu_distance_previous"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_small"
-                        android:gravity="center"
-                        android:textColor="@color/text"
-                        android:textSize="@dimen/text_medium"
-                        android:textStyle="bold"
-                        tools:text="@string/fragment_menu_distance_previous"
-                        />
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/fragment_menu_distance_previous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/padding_small"
+                    android:gravity="center"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/text_medium"
+                    android:textStyle="bold"
+                    tools:text="@string/fragment_menu_distance_previous"
+                    />
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/divider"
-                />
-
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/fragment_menu_signInView"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="?attr/colorPrimary"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:padding="@dimen/padding_medium"
-                android:text="@string/fragment_menu_sign_in_text"
-                android:textColor="@color/text"
-                android:textSize="@dimen/text_medium"
-                />
-
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/fragment_menu_sign_in"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_medium"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/fragment_menu_signOutView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="?attr/colorPrimary"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            tools:visibility="gone">
-
-            <TextView
-                android:id="@+id/fragment_menu_welcome_message"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:padding="@dimen/padding_medium"
-                android:textColor="@color/text"
-                android:textSize="@dimen/text_medium"
-                tools:text="@string/fragment_menu_welcome_message"
-                />
-
-            <TextView
-                android:id="@+id/fragment_menu_sign_out"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/padding_medium"
-                android:text="@string/fragment_menu_sign_out"
-                android:textColor="@color/text_color_light"
-                android:textSize="@dimen/text_medium"
-                />
-
-        </LinearLayout>
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            />
 
     </LinearLayout>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/fragment_menu_signInView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="?attr/colorPrimary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:padding="@dimen/padding_medium"
+            android:text="@string/fragment_menu_sign_in_text"
+            android:textColor="@color/text"
+            android:textSize="@dimen/text_medium"
+            />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/fragment_menu_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_medium"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_menu_signOutView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="?attr/colorPrimary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <TextView
+            android:id="@+id/fragment_menu_welcome_message"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:padding="@dimen/padding_medium"
+            android:textColor="@color/text"
+            android:textSize="@dimen/text_medium"
+            tools:text="@string/fragment_menu_welcome_message"
+            />
+
+        <TextView
+            android:id="@+id/fragment_menu_sign_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/padding_medium"
+            android:text="@string/fragment_menu_sign_out"
+            android:textColor="@color/text_color_light"
+            android:textSize="@dimen/text_medium"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

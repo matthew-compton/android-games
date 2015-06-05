@@ -81,6 +81,7 @@ public class GameplayView extends View {
 
     @Override
     synchronized public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
         mCanvasWidth = canvas.getWidth();
         mCanvasHeight = canvas.getHeight();
         if (!mIsSetup && mCanvasWidth > 0 && mCanvasHeight > 0) {
@@ -90,6 +91,16 @@ public class GameplayView extends View {
             clearScreen(canvas);
             drawSprites(canvas);
         }
+    }
+
+    public void setAlphaMax() {
+        setAlpha(1.0f);
+        invalidate();
+    }
+
+    public void setAlphaHalf() {
+        setAlpha(0.5f);
+        invalidate();
     }
 
     private void clearScreen(Canvas canvas) {

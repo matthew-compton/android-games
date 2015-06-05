@@ -84,9 +84,8 @@ public class GameplayFragment extends Fragment {
             mOverlayTextView.setVisibility(View.GONE);
             mOverlayTextView.setText(null);
             mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
-            mGameplayView.invalidate();
+            mGameplayView.setAlphaMax();
             mGameplayView.enableListeners();
-            mGameplayView.setAlpha(1.0f);
             mFrameUpdateHandler.postDelayed(mFrameUpdateRunnable, FRAME_RATE_MS);
         } else if (mGameState == GameState.READY) {
             mRestartImageView.setVisibility(View.GONE);
@@ -94,7 +93,7 @@ public class GameplayFragment extends Fragment {
             mPlayImageView.setVisibility(View.VISIBLE);
             mOverlayTextView.setVisibility(View.VISIBLE);
             mOverlayTextView.setText(R.string.fragment_gameplay_overlay_ready);
-            mGameplayView.setAlpha(1.0f);
+            mGameplayView.setAlphaMax();
             mGameplayView.disableListeners();
         } else if (mGameState == GameState.PAUSED) {
             mRestartImageView.setVisibility(View.GONE);
@@ -102,7 +101,7 @@ public class GameplayFragment extends Fragment {
             mPlayImageView.setVisibility(View.VISIBLE);
             mOverlayTextView.setVisibility(View.VISIBLE);
             mOverlayTextView.setText(R.string.fragment_gameplay_overlay_paused);
-            mGameplayView.setAlpha(0.5f);
+            mGameplayView.setAlphaHalf();
             mGameplayView.disableListeners();
         } else if (mGameState == GameState.GAMEOVER) {
             mRestartImageView.setVisibility(View.VISIBLE);
@@ -110,7 +109,7 @@ public class GameplayFragment extends Fragment {
             mPlayImageView.setVisibility(View.GONE);
             mOverlayTextView.setVisibility(View.VISIBLE);
             mOverlayTextView.setText(R.string.fragment_gameplay_overlay_gameover);
-            mGameplayView.setAlpha(0.5f);
+            mGameplayView.setAlphaHalf();
             mGameplayView.disableListeners();
         } else {
             throw new IllegalStateException();

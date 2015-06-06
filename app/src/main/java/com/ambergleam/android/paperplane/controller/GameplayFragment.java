@@ -74,7 +74,7 @@ public class GameplayFragment extends Fragment {
         return mGameState;
     }
 
-    synchronized private void updateUI() {
+    private void updateUI() {
         mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
         mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, DistanceUtils.formatDistance(mDistance)));
         if (mGameState == GameState.RUNNING) {
@@ -116,7 +116,7 @@ public class GameplayFragment extends Fragment {
         }
     }
 
-    synchronized public void reset() {
+    public void reset() {
         mGameplayView.reset();
         mGameplayView.invalidate();
         mFrameUpdateHandler = new Handler();
@@ -124,22 +124,22 @@ public class GameplayFragment extends Fragment {
         mDistance = 0;
     }
 
-    synchronized public void toReadyState() {
+    public void toReadyState() {
         mGameState = GameState.READY;
         updateUI();
     }
 
-    synchronized public void toPauseState() {
+    public void toPauseState() {
         mGameState = GameState.PAUSED;
         updateUI();
     }
 
-    synchronized public void toGameoverState() {
+    public void toGameoverState() {
         mGameState = GameState.GAMEOVER;
         updateUI();
     }
 
-    synchronized public void toRunningState() {
+    public void toRunningState() {
         mGameState = GameState.RUNNING;
         updateUI();
     }

@@ -87,7 +87,7 @@ public class GameplayFragment extends Fragment {
             mPlayImageView.setVisibility(View.GONE);
             mOverlayTextView.setVisibility(View.GONE);
             mOverlayTextView.setText(null);
-            mGameplayView.setAlphaMax();
+            mGameplayView.setAlpha(1.0f);
             mGameplayView.enableListeners();
             mFrameUpdateHandler.postDelayed(mFrameUpdateRunnable, FRAME_RATE_MS);
         } else if (mGameState == GameState.READY) {
@@ -96,7 +96,7 @@ public class GameplayFragment extends Fragment {
             mPlayImageView.setVisibility(View.VISIBLE);
             mOverlayTextView.setVisibility(View.VISIBLE);
             mOverlayTextView.setText(R.string.fragment_gameplay_overlay_ready);
-            mGameplayView.setAlphaMax();
+            mGameplayView.setAlpha(1.0f);
             mGameplayView.disableListeners();
         } else if (mGameState == GameState.PAUSED) {
             mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
@@ -105,7 +105,7 @@ public class GameplayFragment extends Fragment {
             mPlayImageView.setVisibility(View.VISIBLE);
             mOverlayTextView.setVisibility(View.VISIBLE);
             mOverlayTextView.setText(R.string.fragment_gameplay_overlay_paused);
-            mGameplayView.setAlphaHalf();
+            mGameplayView.setAlpha(0.5f);
             mGameplayView.disableListeners();
         } else if (mGameState == GameState.GAMEOVER) {
             mRestartImageView.setVisibility(View.VISIBLE);
@@ -113,7 +113,7 @@ public class GameplayFragment extends Fragment {
             mPlayImageView.setVisibility(View.GONE);
             mOverlayTextView.setVisibility(View.VISIBLE);
             mOverlayTextView.setText(R.string.fragment_gameplay_overlay_gameover);
-            mGameplayView.setAlphaHalf();
+            mGameplayView.setAlpha(0.5f);
             mGameplayView.disableListeners();
         } else {
             throw new IllegalStateException();

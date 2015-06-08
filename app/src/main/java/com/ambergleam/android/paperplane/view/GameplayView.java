@@ -39,6 +39,20 @@ public class GameplayView extends View {
         reset();
     }
 
+    @Override
+    synchronized public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (!mIsSetup && canvas.getWidth() > 0 && canvas.getHeight() > 0) {
+            mCanvasWidth = canvas.getWidth();
+            mCanvasHeight = canvas.getHeight();
+            setupGame();
+            clearScreen(canvas);
+        } else if (mIsSetup) {
+            clearScreen(canvas);
+            drawSprites(canvas);
+        }
+    }
+
     private void setupListeners() {
         mOnClickListener = new View.OnClickListener() {
             @Override
@@ -86,28 +100,6 @@ public class GameplayView extends View {
 
     public void reset() {
         mIsSetup = false;
-    }
-
-    @Override
-    synchronized public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        mCanvasWidth = canvas.getWidth();
-        mCanvasHeight = canvas.getHeight();
-        if (!mIsSetup && mCanvasWidth > 0 && mCanvasHeight > 0) {
-            setupGame();
-            clearScreen(canvas);
-        } else if (mIsSetup) {
-            clearScreen(canvas);
-            drawSprites(canvas);
-        }
-    }
-
-    public void setAlphaMax() {
-        setAlpha(1.0f);
-    }
-
-    public void setAlphaHalf() {
-        setAlpha(0.5f);
     }
 
     private void clearScreen(Canvas canvas) {

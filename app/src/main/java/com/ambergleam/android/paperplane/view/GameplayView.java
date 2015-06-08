@@ -22,6 +22,9 @@ import timber.log.Timber;
 
 public class GameplayView extends View {
 
+    private OnSwipeTouchListener mOnSwipeTouchListener;
+    private OnClickListener mOnClickListener;
+
     private Plane mPlane;
     private List<Enemy> mEnemies;
 
@@ -32,18 +35,19 @@ public class GameplayView extends View {
 
     public GameplayView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setupListeners();
         reset();
     }
 
-    public void enableListeners() {
-        setOnClickListener(new View.OnClickListener() {
+    private void setupListeners() {
+        mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 Timber.i("onClick");
                 mPlane.resetVelocity();
             }
-        });
-        setOnTouchListener(new OnSwipeTouchListener() {
+        };
+        mOnSwipeTouchListener = new OnSwipeTouchListener(getContext()) {
             public boolean onSwipeTop() {
                 Timber.i("onSwipeTop");
                 mPlane.updateVelocity(0, -Plane.SWIPE_VELOCITY_DELTA);
@@ -67,7 +71,12 @@ public class GameplayView extends View {
                 mPlane.updateVelocity(0, Plane.SWIPE_VELOCITY_DELTA);
                 return true;
             }
-        });
+        };
+    }
+
+    public void enableListeners() {
+        setOnClickListener(mOnClickListener);
+        setOnTouchListener(mOnSwipeTouchListener);
     }
 
     public void disableListeners() {

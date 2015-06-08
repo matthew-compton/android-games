@@ -1,15 +1,23 @@
 package com.ambergleam.android.paperplane.view;
 
+import android.content.Context;
+import android.support.v4.view.GestureDetectorCompat;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class OnSwipeTouchListener implements View.OnTouchListener {
 
-    private final GestureDetector gestureDetector = new GestureDetector(new GestureListener());
+    private Context mContext;
+    private GestureDetectorCompat mGestureDetector;
+
+    public OnSwipeTouchListener(Context context) {
+        mContext = context;
+        mGestureDetector = new GestureDetectorCompat(mContext, new GestureListener());
+    }
 
     public boolean onTouch(final View v, final MotionEvent event) {
-        return gestureDetector.onTouchEvent(event);
+        return mGestureDetector.onTouchEvent(event);
     }
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {

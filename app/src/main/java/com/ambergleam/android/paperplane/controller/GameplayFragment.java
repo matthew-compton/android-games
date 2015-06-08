@@ -56,6 +56,9 @@ public class GameplayFragment extends Fragment {
     public void onPause() {
         super.onPause();
         mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
+        if (mGameState == GameState.RUNNING) {
+            toPauseState();
+        }
     }
 
     @Override
@@ -78,12 +81,12 @@ public class GameplayFragment extends Fragment {
         mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
         mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, DistanceUtils.formatDistance(mDistance)));
         if (mGameState == GameState.RUNNING) {
+            mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
             mRestartImageView.setVisibility(View.GONE);
             mPauseImageView.setVisibility(View.VISIBLE);
             mPlayImageView.setVisibility(View.GONE);
             mOverlayTextView.setVisibility(View.GONE);
             mOverlayTextView.setText(null);
-            mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
             mGameplayView.setAlphaMax();
             mGameplayView.enableListeners();
             mFrameUpdateHandler.postDelayed(mFrameUpdateRunnable, FRAME_RATE_MS);
@@ -96,6 +99,7 @@ public class GameplayFragment extends Fragment {
             mGameplayView.setAlphaMax();
             mGameplayView.disableListeners();
         } else if (mGameState == GameState.PAUSED) {
+            mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
             mRestartImageView.setVisibility(View.GONE);
             mPauseImageView.setVisibility(View.GONE);
             mPlayImageView.setVisibility(View.VISIBLE);
@@ -114,6 +118,7 @@ public class GameplayFragment extends Fragment {
         } else {
             throw new IllegalStateException();
         }
+        mGameplayView.invalidate();
     }
 
     public void reset() {

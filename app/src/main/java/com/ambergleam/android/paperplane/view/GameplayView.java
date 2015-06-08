@@ -30,7 +30,6 @@ public class GameplayView extends View {
 
     private int mCanvasWidth;
     private int mCanvasHeight;
-    private float mAlpha;
     private boolean mIsSetup;
     private Bitmap mBackground;
 
@@ -104,11 +103,11 @@ public class GameplayView extends View {
     }
 
     public void setAlphaMax() {
-        mAlpha = 1.0f;
+        setAlpha(1.0f);
     }
 
     public void setAlphaHalf() {
-        mAlpha = 0.5f;
+        setAlpha(0.5f);
     }
 
     private void clearScreen(Canvas canvas) {

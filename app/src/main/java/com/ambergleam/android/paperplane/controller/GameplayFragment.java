@@ -77,78 +77,6 @@ public class GameplayFragment extends Fragment {
         return mGameState;
     }
 
-    private void updateUI() {
-        mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
-        mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, DistanceUtils.formatDistance(mDistance)));
-        if (mGameState == GameState.RUNNING) {
-            mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
-            mRestartImageView.setVisibility(View.GONE);
-            mPauseImageView.setVisibility(View.VISIBLE);
-            mPlayImageView.setVisibility(View.GONE);
-            mOverlayTextView.setVisibility(View.GONE);
-            mOverlayTextView.setText(null);
-            mGameplayView.setAlpha(1.0f);
-            mGameplayView.enableListeners();
-            mFrameUpdateHandler.postDelayed(mFrameUpdateRunnable, FRAME_RATE_MS);
-        } else if (mGameState == GameState.READY) {
-            mRestartImageView.setVisibility(View.GONE);
-            mPauseImageView.setVisibility(View.GONE);
-            mPlayImageView.setVisibility(View.VISIBLE);
-            mOverlayTextView.setVisibility(View.VISIBLE);
-            mOverlayTextView.setText(R.string.fragment_gameplay_overlay_ready);
-            mGameplayView.setAlpha(1.0f);
-            mGameplayView.disableListeners();
-        } else if (mGameState == GameState.PAUSED) {
-            mFrameUpdateHandler.removeCallbacks(mFrameUpdateRunnable);
-            mRestartImageView.setVisibility(View.GONE);
-            mPauseImageView.setVisibility(View.GONE);
-            mPlayImageView.setVisibility(View.VISIBLE);
-            mOverlayTextView.setVisibility(View.VISIBLE);
-            mOverlayTextView.setText(R.string.fragment_gameplay_overlay_paused);
-            mGameplayView.setAlpha(0.5f);
-            mGameplayView.disableListeners();
-        } else if (mGameState == GameState.GAMEOVER) {
-            mRestartImageView.setVisibility(View.VISIBLE);
-            mPauseImageView.setVisibility(View.GONE);
-            mPlayImageView.setVisibility(View.GONE);
-            mOverlayTextView.setVisibility(View.VISIBLE);
-            mOverlayTextView.setText(R.string.fragment_gameplay_overlay_gameover);
-            mGameplayView.setAlpha(0.5f);
-            mGameplayView.disableListeners();
-        } else {
-            throw new IllegalStateException();
-        }
-        mGameplayView.invalidate();
-    }
-
-    public void reset() {
-        mGameplayView.reset();
-        mGameplayView.invalidate();
-        mFrameUpdateHandler = new Handler();
-        mTime = 0;
-        mDistance = 0;
-    }
-
-    public void toReadyState() {
-        mGameState = GameState.READY;
-        updateUI();
-    }
-
-    public void toPauseState() {
-        mGameState = GameState.PAUSED;
-        updateUI();
-    }
-
-    public void toGameoverState() {
-        mGameState = GameState.GAMEOVER;
-        updateUI();
-    }
-
-    public void toRunningState() {
-        mGameState = GameState.RUNNING;
-        updateUI();
-    }
-
     @OnClick(R.id.fragment_gameplay_restart)
     public void onClickRestart() {
         switch (mGameState) {
@@ -208,6 +136,18 @@ public class GameplayFragment extends Fragment {
         }
     }
 
+    public interface Callbacks {
+        void onGameover(int time, int distance);
+    }
+
+    public void reset() {
+        mFrameUpdateHandler = new Handler();
+        mGameplayView.reset();
+        mGameplayView.invalidate();
+        mTime = 0;
+        mDistance = 0;
+    }
+
     private final Runnable mFrameUpdateRunnable = new Runnable() {
         @Override
         synchronized public void run() {
@@ -222,13 +162,88 @@ public class GameplayFragment extends Fragment {
             if (gameover) {
                 toGameoverState();
             } else {
-                updateUI();
+                toRunningState();
             }
         }
     };
 
-    public interface Callbacks {
-        void onGameover(int time, int distance);
+    private void updateUI() {
+        mTimeTextView.setText(getString(R.string.fragment_gameplay_time, TimeUtils.formatTime(mTime)));
+        mDistanceTextView.setText(getString(R.string.fragment_gameplay_distance, DistanceUtils.formatDistance(mDistance)));
+        if (mGameState == GameState.RUNNING) {
+            updateRunningUI();
+        } else if (mGameState == GameState.READY) {
+            updateReadyUI();
+        } else if (mGameState == GameState.PAUSED) {
+            updatePausedUI();
+        } else if (mGameState == GameState.GAMEOVER) {
+            updateGameoverUI();
+        } else {
+            throw new IllegalStateException();
+        }
+        mGameplayView.invalidate();
     }
+
+    private void updateRunningUI() {
+        mRestartImageView.setVisibility(View.GONE);
+        mPauseImageView.setVisibility(View.VISIBLE);
+        mPlayImageView.setVisibility(View.GONE);
+        mOverlayTextView.setVisibility(View.GONE);
+        mOverlayTextView.setText(null);
+        mGameplayView.setAlpha(1.0f);
+        mGameplayView.enableListeners();
+    }
+
+    private void updateReadyUI() {
+        mRestartImageView.setVisibility(View.GONE);
+        mPauseImageView.setVisibility(View.GONE);
+        mPlayImageView.setVisibility(View.VISIBLE);
+        mOverlayTextView.setVisibility(View.VISIBLE);
+        mOverlayTextView.setText(R.string.fragment_gameplay_overlay_ready);
+        mGameplayView.setAlpha(1.0f);
+        mGameplayView.disableListeners();
+    }
+
+    private void updatePausedUI() {
+        mRestartImageView.setVisibility(View.GONE);
+        mPauseImageView.setVisibility(View.GONE);
+        mPlayImageView.setVisibility(View.VISIBLE);
+        mOverlayTextView.setVisibility(View.VISIBLE);
+        mOverlayTextView.setText(R.string.fragment_gameplay_overlay_paused);
+        mGameplayView.setAlpha(0.5f);
+        mGameplayView.disableListeners();
+    }
+
+    private void updateGameoverUI() {
+        mRestartImageView.setVisibility(View.VISIBLE);
+        mPauseImageView.setVisibility(View.GONE);
+        mPlayImageView.setVisibility(View.GONE);
+        mOverlayTextView.setVisibility(View.VISIBLE);
+        mOverlayTextView.setText(R.string.fragment_gameplay_overlay_gameover);
+        mGameplayView.setAlpha(0.5f);
+        mGameplayView.disableListeners();
+    }
+
+    public void toReadyState() {
+        mGameState = GameState.READY;
+        updateUI();
+    }
+
+    public void toPauseState() {
+        mGameState = GameState.PAUSED;
+        updateUI();
+    }
+
+    public void toGameoverState() {
+        mGameState = GameState.GAMEOVER;
+        updateUI();
+    }
+
+    public void toRunningState() {
+        mGameState = GameState.RUNNING;
+        updateUI();
+        mFrameUpdateHandler.postDelayed(mFrameUpdateRunnable, FRAME_RATE_MS);
+    }
+
 
 }
